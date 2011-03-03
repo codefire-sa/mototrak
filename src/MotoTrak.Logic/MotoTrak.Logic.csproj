@@ -1,0 +1,207 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.30729</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{0C39F8D9-FB9E-4CFD-8006-01CCB1954E88}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>MotoTrak</RootNamespace>
+    <AssemblyName>MotoTrak.Logic</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <OldToolsVersion>3.5</OldToolsVersion>
+    <UpgradeBackupLocation />
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="BusinessLogic\ClaimTypeLogic.cs" />
+    <Compile Include="BusinessLogic\ConditionLogic.cs" />
+    <Compile Include="BusinessLogic\ClaimLabourLogic.cs" />
+    <Compile Include="BusinessLogic\ClaimPartLogic.cs" />
+    <Compile Include="BusinessLogic\ClaimMiscellaneousLogic.cs" />
+    <Compile Include="BusinessLogic\RejectionReasonLogic.cs" />
+    <Compile Include="BusinessLogic\MiscellaneousLogic.cs" />
+    <Compile Include="BusinessLogic\ModelLogic.cs" />
+    <Compile Include="BusinessLogic\DealerLogic.cs" />
+    <Compile Include="BusinessLogic\LabourLogic.cs" />
+    <Compile Include="BusinessLogic\PartLogic.cs" />
+    <Compile Include="BusinessLogic\PartTypeLogic.cs" />
+    <Compile Include="BusinessLogic\CustomerConcernLogic.cs" />
+    <Compile Include="BusinessLogic\ProgramLogic.cs" />
+    <Compile Include="BusinessLogic\GenderLogic.cs" />
+    <Compile Include="BusinessLogic\LanguageLogic.cs" />
+    <Compile Include="BusinessLogic\PolicyLogic.cs" />
+    <Compile Include="BusinessLogic\PolicyStatusLogic.cs" />
+    <Compile Include="BusinessLogic\ProductLogic.cs" />
+    <Compile Include="BusinessLogic\VehicleServiceLogic.cs" />
+    <Compile Include="BusinessLogic\VehicleStatusLogic.cs" />
+    <Compile Include="DataLogic\ClaimStatusRepository.cs" />
+    <Compile Include="DataLogic\RejectionReasonRepository.cs" />
+    <Compile Include="DataLogic\MotoTrakCatalog.cs" />
+    <Compile Include="DataLogic\MotoTrakStrategy.cs" />
+    <Compile Include="BusinessLogic\BaseLogic.cs" />
+    <Compile Include="BusinessLogic\UserLogic.cs" />
+    <Compile Include="BusinessLogic\ClaimLogic.cs" />
+    <Compile Include="BusinessLogic\VehicleLogic.cs" />
+    <Compile Include="BusinessLogic\WarrantyClaimLogic.cs" />
+    <Compile Include="DataLogic\ClaimQueueRepository.cs" />
+    <Compile Include="DataLogic\AttachmentRepository.cs" />
+    <Compile Include="DataLogic\ClaimMiscellaneousRepository.cs" />
+    <Compile Include="DataLogic\PartDiscountRepository.cs" />
+    <Compile Include="DataLogic\PartPriceRepository.cs" />
+    <Compile Include="DataLogic\MiscellaneousRepository.cs" />
+    <Compile Include="DataLogic\EntityRepository.cs" />
+    <Compile Include="DataLogic\ClaimHistoryRepository.cs" />
+    <Compile Include="DataLogic\ClaimLabourRepository.cs" />
+    <Compile Include="DataLogic\ClaimPartRepository.cs" />
+    <Compile Include="DataLogic\ClaimRepository.cs" />
+    <Compile Include="DataLogic\ClaimTypeRepository.cs" />
+    <Compile Include="DataLogic\ConditionRepository.cs" />
+    <Compile Include="DataLogic\ModelRepository.cs" />
+    <Compile Include="DataLogic\DealerRepository.cs" />
+    <Compile Include="DataLogic\LabourRepository.cs" />
+    <Compile Include="DataLogic\PartRepository.cs" />
+    <Compile Include="DataLogic\PartTypeRepository.cs" />
+    <Compile Include="DataLogic\CustomerConcernRepository.cs" />
+    <Compile Include="DataLogic\CustomerRepository.cs" />
+    <Compile Include="DataLogic\GenderRepository.cs" />
+    <Compile Include="DataLogic\LanguageRepository.cs" />
+    <Compile Include="DataLogic\PolicyRepository.cs" />
+    <Compile Include="DataLogic\PolicyStatusRepository.cs" />
+    <Compile Include="DataLogic\ProductRepository.cs" />
+    <Compile Include="DataLogic\ProgramRepository.cs" />
+    <Compile Include="DataLogic\SearchManager.cs" />
+    <Compile Include="DataLogic\VehicleServiceRepository.cs" />
+    <Compile Include="DataLogic\VehicleStatusRepository.cs" />
+    <Compile Include="DataLogic\UserRepository.cs" />
+    <Compile Include="DataLogic\VehicleNoteRepository.cs" />
+    <Compile Include="DataLogic\VehicleRepository.cs" />
+    <Compile Include="Entities\AddressComponent.cs" />
+    <Compile Include="Entities\AccountTypeEntity.cs" />
+    <Compile Include="Entities\AjaxMessage.cs" />
+    <Compile Include="Entities\AttachmentType.cs" />
+    <Compile Include="Entities\BankDetailComponent.cs" />
+    <Compile Include="Entities\CancellationReasonEntity.cs" />
+    <Compile Include="Entities\ClaimAmountComponent.cs" />
+    <Compile Include="Entities\ClaimClassEntity.cs" />
+    <Compile Include="Entities\ClaimEntity.cs" />
+    <Compile Include="Entities\ClaimHistoryEntity.cs" />
+    <Compile Include="Entities\ClaimLabourEntity.cs" />
+    <Compile Include="Entities\ClaimMiscellaneousEntity.cs" />
+    <Compile Include="Entities\ClaimPartEntity.cs" />
+    <Compile Include="Entities\ClaimSearchRequest.cs" />
+    <Compile Include="Entities\ClaimStatusEntity.cs" />
+    <Compile Include="Entities\ClaimTypeEntity.cs" />
+    <Compile Include="Entities\ConditionEntity.cs" />
+    <Compile Include="Entities\AttachmentEntity.cs" />
+    <Compile Include="Entities\SearchEntity.cs" />
+    <Compile Include="Entities\SearchRequest.cs" />
+    <Compile Include="Entities\CustomerComponent.cs" />
+    <Compile Include="Entities\PolicySummaryEntity.cs" />
+    <Compile Include="Entities\RejectionReasonEntity.cs" />
+    <Compile Include="Entities\ProgramEntity.cs" />
+    <Compile Include="Entities\PartPriceEntity.cs" />
+    <Compile Include="Entities\PartTypeEntity.cs" />
+    <Compile Include="Entities\MiscellaneousEntity.cs" />
+    <Compile Include="Entities\LabourEntity.cs" />
+    <Compile Include="Entities\FaultEntity.cs" />
+    <Compile Include="Entities\CustomerConcernEntity.cs" />
+    <Compile Include="Entities\DealerEntity.cs" />
+    <Compile Include="Entities\DealerRateEntity.cs" />
+    <Compile Include="Entities\LabourTimeEntity.cs" />
+    <Compile Include="Entities\PartDiscountEntity.cs" />
+    <Compile Include="Entities\PartEntity.cs" />
+    <Compile Include="Entities\PolicyEntity.cs" />
+    <Compile Include="Entities\ProductEntity.cs" />
+    <Compile Include="Entities\SiteEntity.cs" />
+    <Compile Include="Entities\PolicyClassEntity.cs" />
+    <Compile Include="Entities\PolicyStatusEntity.cs" />
+    <Compile Include="Entities\ModelEntity.cs" />
+    <Compile Include="Entities\LanguageEntity.cs" />
+    <Compile Include="Entities\GenderEntity.cs" />
+    <Compile Include="Entities\CustomerEntity.cs" />
+    <Compile Include="Entities\Entity.cs" />
+    <Compile Include="Entities\TaxRateEntity.cs" />
+    <Compile Include="Entities\TaxRateValueEntity.cs" />
+    <Compile Include="Entities\UserEntity.cs" />
+    <Compile Include="Entities\ValueComponent.cs" />
+    <Compile Include="Entities\SecurityTicket.cs" />
+    <Compile Include="Entities\VehicleEntity.cs" />
+    <Compile Include="Models\WarrantyClaimInvoiceModel.cs" />
+    <Compile Include="Models\WarrantyClaimRejectModel.cs" />
+    <Compile Include="Models\VehicleModel.cs" />
+    <Compile Include="Entities\VehicleNoteEntity.cs" />
+    <Compile Include="Entities\VehicleSearchRequest.cs" />
+    <Compile Include="Entities\VehicleServiceEntity.cs" />
+    <Compile Include="Entities\VehicleStatusEntity.cs" />
+    <Compile Include="Entities\VehicleSummaryEntity.cs" />
+    <Compile Include="Models\ClaimWorkflowModel.cs" />
+    <Compile Include="Models\WarrantyClaimModel.cs" />
+    <Compile Include="Mapping\ClaimLabourMap.cs" />
+    <Compile Include="Mapping\ClaimMap.cs" />
+    <Compile Include="Mapping\ClaimPartMap.cs" />
+    <Compile Include="Mapping\ClaimHistoryMap.cs" />
+    <Compile Include="Mapping\ClaimMiscellaneousMap.cs" />
+    <Compile Include="Mapping\PartPriceMap.cs" />
+    <Compile Include="Mapping\MiscellaneousMap.cs" />
+    <Compile Include="Mapping\PolicySummaryMap.cs" />
+    <Compile Include="Mapping\LabourMap.cs" />
+    <Compile Include="Mapping\PolicyMap.cs" />
+    <Compile Include="Mapping\ProductMap.cs" />
+    <Compile Include="Mapping\VehicleMap.cs" />
+    <Compile Include="Mapping\VehicleServiceMap.cs" />
+    <Compile Include="Mapping\UserMap.cs" />
+    <Compile Include="Mapping\CustomerMap.cs" />
+    <Compile Include="Mapping\VehicleNoteMap.cs" />
+    <Compile Include="Mapping\VehicleSummaryMap.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\Framework\src\Codefire.Storm\Codefire.Storm.csproj">
+      <Project>{09A171C2-6975-4F7A-B4AB-5E14B3F8040C}</Project>
+      <Name>Codefire.Storm</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\Framework\src\Codefire\Codefire.csproj">
+      <Project>{9DDF5814-FD56-491F-B8A3-63FD13C316DC}</Project>
+      <Name>Codefire</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

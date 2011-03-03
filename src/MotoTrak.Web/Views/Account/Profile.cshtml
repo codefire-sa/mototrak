@@ -1,0 +1,65 @@
+﻿@model UserEntity
+
+@{
+    Layout = "~/Views/Shared/_ApplicationLayout.cshtml";
+}
+
+<h1>@ViewBag.Title</h1>
+
+<ul id="toolBar" class="toolBar">
+  <li>@Html.ActionLink("Edit", "EditProfile", null, new { id = "editButton", title = "Edit your profile." })</li>
+  <li>@Html.ActionLink("Change Password", "ChangePassword", null, new { id = "passwordButton", title = "Change your password." })</li>
+</ul>
+
+@Html.DisplayMessage()
+
+<table cellpadding="2" cellspacing="0" border="0">
+  <colgroup>
+    <col style="width: 175px" />
+    <col />
+  </colgroup>
+  <tr>
+    <td><label>User Code:</label></td>
+    <td>@Model.Code</td>
+  </tr>
+  <tr>
+    <td><label>User Name:</label></td>
+    <td>@Model.Name</td>
+  </tr>
+  <tr>
+    <td><label>Last Login:</label></td>
+    <td>@DateUtility.FormatDate(Model.LastLoginDate, "dd/MM/yyyy HH:mm")</td>
+  </tr>
+  <tr>
+    <td><label>Dealer:</label></td>
+    <td>@Model.Dealer</td>
+  </tr>
+  <tr>
+    <td><label>User Type:</label></td>
+    <td>@Model.UserType</td>
+  </tr>
+  <tr>
+    <td><label>Phone Number:</label></td>
+    <td>@Model.PhoneNumber</td>
+  </tr>
+  <tr>
+    <td><label>Mobile Number:</label></td>
+    <td>@Model.MobileNumber</td>
+  </tr>
+  <tr>
+    <td><label>Email Address:</label></td>
+    <td>@Model.EmailAddress</td>
+  </tr>
+</table>
+
+@section scripts
+{
+  @Html.ScriptLink("jquery-ui.js")
+
+  <script type="text/javascript">
+    $(function () {
+      $("#editButton").button();
+      $("#passwordButton").button();
+    });
+  </script>
+}

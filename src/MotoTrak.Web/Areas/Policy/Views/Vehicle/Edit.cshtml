@@ -1,0 +1,120 @@
+﻿@model VehicleEntity
+
+@{
+  Layout = "~/Views/Shared/_ApplicationLayout.cshtml";
+}
+
+<h1>@ViewBag.Title</h1>
+
+@{ Html.BeginForm(); }
+<table cellpadding="2" cellspacing="0" border="0">
+  <colgroup>
+    <col style="width: 175px" />
+    <col />
+  </colgroup>
+  <tr>
+    <td><label>VIN No:</label></td>
+    <td>@Html.TextBox("vinNumber", Model.VinNumber, new { size = 30})</td>
+  </tr>
+  <tr>
+    <td><label>Chassis No:</label></td>
+    <td>@Html.TextBox("chassisNumber", Model.ChassisNumber, new { size = 30 })</td>
+  </tr>
+  <tr>
+    <td><label>Engine No:</label></td>
+    <td>@Html.TextBox("engineNumber", Model.EngineNumber, new { size = 30 })</td>
+  </tr>
+  <tr>
+    <td><label>Wholesale Date:</label></td>
+    <td>@Html.TextBox("wholesaleDate", DateUtility.FormatDate(Model.WholesaleDate, "dd/MM/yyyy"), new { size = 30 })</td>
+  </tr>
+  <tr>
+      <td><label>Model:</label></td>
+      <td>
+        @Html.Hidden("modelId", Model.Model.Id)
+        @Html.TextBox("modelCode", Model.Model.Code, new { size = 30 })
+        <a id="modelSearch" href="#" title="Model Search"><img src="@Url.Content("~/Content/Images/search.png")" /></a>
+        <span id="modelName">@Model.Model.Name</span>
+      </td>
+  </tr>
+  <tr>
+    <td><label>Current KM:</label></td>
+    <td>@Html.TextBox("currentDistance", Model.CurrentDistance, new { size = 30 })</td>
+  </tr>
+  <tr>
+    <td><label>Status:</label></td>
+    <td>@Html.DropDownList("vehicleStatusId", null, "", new { style = "width:205px"})</td>
+  </tr>
+</table>
+<div style="text-align:center;padding-top:20px;">
+  <input type="submit" id="btnSave" name="btnSave" value="Update" style="width: 80px;" />
+  or
+  @Html.ActionLink("cancel", "Display", new { id = Model.Id, controller = "Vehicle", area = "Policy"} )
+</div>
+@{ Html.EndForm(); }
+
+<div id="searchDialog" style="display: none">
+  <iframe id="searchFrame" width="100%" height="100%" marginWidth="0" marginHeight="0" frameBorder="0" scrolling="auto"></iframe>
+</div>
+
+@section scripts
+{
+  @Html.ScriptLink("jquery-ui.js")
+
+  <script type="text/javascript">
+    var modelUrl = "@Url.Action("GetModel", "Ajax", new { area = "" })";
+    var modelSearchUrl = "@Url.Action("Model", "Search", new { area = "" })";
+  
+    $(function() {
+      $("#modelCode").change(model_change);
+      $("#modelSearch").click(model_search);
+    
+      $("#searchDialog").dialog({
+          autoOpen: false,
+          modal: true,
+          height: 500,
+          width: 800
+        });
+    });
+
+    function model_change(e) {
+      var code = $("#modelCode").val();
+      loadModel(code);
+    }
+  
+    function model_search(e) {
+      $("#searchDialog").dialog("option", "title", "Model Search");
+      $("#searchDialog").dialog("open");
+      $("#searchFrame").attr("src", modelSearchUrl);
+    }
+
+    function loadModel(code)
+    {
+      if (code == "")
+      {
+        $("#modelId").val("0");
+        $("#modelName").text("");
+      }
+      else
+      {
+        $("#modelName").text("Loading...");
+        $.getJSON(modelUrl, { code: code }, model_ajax);
+      }
+    }
+
+    function model_ajax(obj)
+    {
+      $("#modelId").val(obj.Id);
+      $("#modelCode").val(obj.Code);
+
+      if (obj.Id == 0)
+      {
+        $("#modelName").text(obj.ErrorMessage);
+      }
+      else
+      {
+        $("#modelName").text(obj.Name);
+      }
+    }
+  </script>
+}

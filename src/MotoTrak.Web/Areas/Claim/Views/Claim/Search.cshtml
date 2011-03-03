@@ -1,0 +1,119 @@
+﻿@using System.Data
+@model DataTable
+
+@{
+  Layout = "~/Views/Shared/_ApplicationLayout.cshtml";
+}
+
+<h1>@ViewBag.Title</h1>
+
+<h2>Search Criteria</h2>
+
+@{ Html.BeginForm(); }
+<table cellpadding="2" cellspacing="0" border="0" width="100%">
+  <colgroup>
+    <col style="width: 175px" />
+    <col />
+    <col style="width: 175px" />
+    <col />
+  </colgroup>
+  <tr>
+    <td><label>Claim No:</label></td>
+    <td>
+      @Html.TextBox("claimCode", ViewData["claimCode"], new { size = 30 })
+    </td>
+    <td><label>Job Card No:</label></td>
+    <td>
+      @Html.TextBox("jobCardNumber", ViewData["jobCardNumber"], new { size = 30 })
+    </td>
+  </tr>
+  <tr>
+    <td><label>Dealer Name:</label></td>
+    <td>
+      @Html.TextBox("dealerName", ViewData["dealerName"], new { size = 30 })
+    </td>
+    <td><label>DDW Claim No:</label></td>
+    <td>
+      @Html.TextBox("externalNumber", ViewData["externalNumber"], new { size = 30 })
+    </td>
+  </tr>
+  <tr>
+    <td><label>Chassis No:</label></td>
+    <td>
+      @Html.TextBox("chassisNumber", ViewData["chassisNumber"], new { size = 30 })
+    </td>
+    <td><label>VIN No:</label></td>
+    <td>
+      @Html.TextBox("vinNumber", ViewData["vinNumber"], new { size = 30 })
+    </td>
+  </tr>
+  <tr>
+    <td><label>Limit Results:</label></td>
+    <td colspan="3">
+      @Html.LimitResults("limit")
+    </td>
+  </tr>
+  <tr>
+    <td colspan="4" style="text-align:center;padding-top:20px;">
+      <input type="submit" id="btnSubmit" name="btnSubmit" value="Search" style="width: 80px;" />
+    </td>
+  </tr>
+</table>
+@{ Html.EndForm(); }
+
+@if (ViewData.Model != null)
+{
+  <h2>Search Results</h2>
+
+  <table class="list" width="100%" cellpadding="2" cellspacing="0">
+    <colgroup>
+      <col style="width:80px;"/>
+      <col style="width:100px;"/>
+      <col style="width:100px;"/>
+      <col style="width:100px;"/>
+      <col />
+      <col style="width:60px;"/>
+      <col style="width:80px;"/>
+      <col style="width:25px;"/>
+    </colgroup>
+    <tr>
+      <th>Claim No</th>
+      <th>DDW Claim</th>
+      <th>Job Card</th>
+      <th>Chassis No</th>
+      <th>Dealer Name</th>
+      <th>Status</th>
+      <th>Type</th>
+      <th>&nbsp;</th>
+    </tr>
+  @if (Model.Rows.Count > 0)
+  {
+    foreach (DataRow row in Model.Rows)
+	  {
+      <tr class="@Html.Cycle("odd", "even")">
+        <td>@(row.Get<string>("ClaimCode"))</td>
+        <td>@(row.Get<string>("ExternalNumber"))</td>
+        <td>@(row.Get<string>("JobCardNumber"))</td>
+        <td>@(row.Get<string>("ChassisNumber"))</td>
+        <td>@(row.Get<string>("DealerName"))</td>
+        <td>@(row.Get<string>("ClaimStatusCode"))</td>
+        <td>@(row.Get<string>("ClaimClassName"))</td>
+        <td class="center">
+          <a href="@Url.Action("Display", "WarrantyClaim", new { id = row.Get<int>("Id"), area = "Claim" })" title="Select claim.">
+            <img src="@Url.Content("~/Content/Images/open.png")" />
+          </a>
+        </td>
+      </tr>
+	  }
+  }
+  else
+  {
+    <tr>
+      <td class="listError" colspan="7">
+        No claims found.
+      </td>
+    </tr>
+  }
+  </table>
+  <div class="listResults">@Model.Rows.Count Record(s)</div>
+}

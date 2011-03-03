@@ -1,0 +1,60 @@
+﻿@using System.Data
+@model DataTable
+
+@{
+  Layout = "~/Views/Shared/_ApplicationLayout.cshtml";
+}
+
+<h1>@ViewBag.Title</h1>
+
+<table class="list" width="100%" cellpadding="2" cellspacing="0">
+  <colgroup>
+    <col style="width:80px;"/>
+    <col style="width:100px;"/>
+    <col style="width:100px;"/>
+    <col style="width:100px;"/>
+    <col />
+    <col style="width:60px;"/>
+    <col style="width:80px;"/>
+    <col style="width:25px;"/>
+  </colgroup>
+  <tr>
+    <th>Claim No</th>
+    <th>DDW Claim</th>
+    <th>Job Card</th>
+    <th>Chassis No</th>
+    <th>Dealer Name</th>
+    <th>Status</th>
+    <th>Type</th>
+    <th>&nbsp;</th>
+  </tr>
+  @if (Model.Rows.Count > 0)
+  {
+    foreach (DataRow row in Model.Rows)
+    {
+      <tr class="@Html.Cycle("odd", "even")">
+        <td>@(row.Get<string>("ClaimCode"))</td>
+        <td>@(row.Get<string>("ExternalNumber"))</td>
+        <td>@(row.Get<string>("JobCardNumber"))</td>
+        <td>@(row.Get<string>("ChassisNumber"))</td>
+        <td>@(row.Get<string>("DealerName"))</td>
+        <td>@(row.Get<string>("ClaimStatusCode"))</td>
+        <td>@(row.Get<string>("ClaimClassName"))</td>
+        <td class="center">
+          <a href="@Url.Action("Display", "WarrantyClaim", new { id = row.Get<int>("Id"), area = "Claim" })" title="Select claim.">
+            <img src="@Url.Content("~/Content/Images/open.png")" />
+          </a>
+        </td>
+      </tr>
+    }
+  }
+  else
+  {
+    <tr>
+      <td class="listError" colspan="7">
+        No claims found in your queue.
+      </td>
+    </tr>  
+  }
+</table>
+<div class="listResults">@ViewData["resultsCount"] Record(s)</div>

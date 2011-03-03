@@ -1,0 +1,139 @@
+﻿@model List<VehicleServiceEntity>
+
+@{
+  Layout = "~/Views/Shared/_ApplicationLayout.cshtml";
+  var vehicleObj = ViewData.Get<VehicleEntity>("vehicle");
+}
+
+<h1>@ViewBag.Title</h1>
+
+<ul id="toolBar" class="toolBar">
+  <li>@Html.ActionLink("Search", "Search", null, new { id = "searchButton", title = "Search for another vehicle.." })</li>
+
+  <li>
+    <a id="actionButton">Actions</a>
+    <ul>
+      <li>@Html.ActionLink("Vehicle Notes", "DisplayNotes", new { controller = "Vehicle", area = "Policy", id = vehicleObj.Id }, new { id = "vehicleNotesAction", title = "View the vehicle notes." })</li>
+      <li>@Html.ActionLink("Claim History", "DisplayClaimHistory", new { controller = "Claim", area = "Claim", id = vehicleObj.Id }, new { id = "claimHistoryAction", title = "View the claim history." })</li>
+    </ul>
+  </li>
+</ul>
+
+@Html.DisplayMessage()
+
+<table cellpadding="2" cellspacing="0">
+  <colgroup>
+    <col style="width: 175px" />
+    <col style="width: 250px" />
+    <col style="width: 175px" />
+    <col style="width: 250px" />
+  </colgroup>
+  <tr>
+    <td><label>Vin No:</label></td>
+    <td>@vehicleObj.VinNumber</td>
+    <td><label>Chassis No:</label></td>
+    <td>@vehicleObj.ChassisNumber</td>
+  </tr>
+  <tr>
+    <td><label>Engine No:</label></td>
+    <td>@vehicleObj.EngineNumber</td>
+    <td><label>Registration No:</label></td>
+    <td>@vehicleObj.RegistrationNumber</td>
+  </tr>
+</table>
+
+<br /><br />
+
+<table class="list" width="100%" cellpadding="2" cellspacing="0">
+  <colgroup>
+    <col style="width:100px;"/>
+    <col />
+    <col style="width:120px;"/>
+    <col style="width:120px;"/>
+    <col style="width:150px;"/>
+    <col style="width:50px;"/>
+  </colgroup>
+  <tr>
+    <th>Dealer Code</th>
+    <th>Dealer Name</th>
+    <th>Service Date</th>
+    <th>Odometer</th>
+    <th>Invoice No</th>
+    <th>&nbsp;</th>
+  </tr>
+  @if (Model.Count > 0)
+  {
+    foreach (var row in Model)
+    {
+      <tr class="@Html.Cycle("odd", "even")">
+        <td>@row.Dealer.Code</td>
+        <td>@row.Dealer.Name</td>
+        <td>@DateUtility.FormatDate(row.ServiceDate, "dd/MM/yyyy")</td>
+        <td>@row.ServiceDistance</td>
+        <td>@row.InvoiceNumber</td>
+        <td class="center">
+          <a href="@Url.Action("Edit", "VehicleService", new { id = row.Id, area = "Policy" }) " title="Edit service.">
+            <img src="@Url.Content("~/Content/Images/edit.png")" />
+          </a>
+          <a href="@Url.Action("Delete", "VehicleService", new { id = row.Id, area = "Policy" }) " title="Delete service.">
+            <img src="@Url.Content("~/Content/Images/delete.png")" />
+          </a>
+        </td>
+      </tr>
+    }
+  }
+  else
+  {
+    <tr>
+      <td class="listError" colspan="5">
+        No service history found.
+      </td>
+    </tr>
+  }
+</table>
+<div style="padding-top:10px;">
+  @Html.ActionLink("Add Service", "Create", new { id = vehicleObj.Id }, new { @class = "action add", title = "Add a vehicle service." })
+</div>
+
+<div id="informationDialog" style="display: none">
+  <iframe id="informationFrame" width="100%" height="100%" marginWidth="0" marginHeight="0" frameBorder="0" scrolling="auto"></iframe>
+</div>
+
+@section scripts
+{
+  @Html.ScriptLink("jquery-ui.js")
+
+  <script type="text/javascript">
+    $(function () {
+      $("#searchButton").button();
+      $("#actionButton").button({
+        icons: {
+          secondary: "ui-icon-triangle-1-s"
+        }
+      });
+
+      $("#vehicleNotesAction").click(showDialog);
+      $("#claimHistoryAction").click(showDialog);
+
+      $("#informationDialog").dialog({
+        autoOpen: false,
+        modal: true,
+        height: 500,
+        width: 800
+      });
+
+      initializeMenu("toolBar");
+    });
+
+    function showDialog(e) {
+      e.preventDefault();
+
+      var url = $(this).attr("href");
+      var title = $(this).text();
+
+      $("#informationDialog").dialog("option", "title", title);
+      $("#informationDialog").dialog("open");
+      $("#informationFrame").attr("src", url);
+    }
+  </script>
+}

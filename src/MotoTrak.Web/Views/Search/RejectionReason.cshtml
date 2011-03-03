@@ -1,0 +1,101 @@
+﻿@model List<SearchEntity>
+
+@{
+  Layout = "~/Views/Shared/_DialogLayout.cshtml";
+}
+
+<h2>Search Criteria</h2>
+
+@{ Html.BeginForm(); }
+<table cellpadding="2" cellspacing="0" border="0" width="100%">
+  <colgroup>
+    <col style="width: 175px" />
+    <col />
+  </colgroup>
+  <tr>
+    <td><label>Reason Code:</label></td>
+    <td>
+      @Html.TextBox("code", ViewData["code"], new { size = 30 })
+    </td>
+  </tr>
+  <tr>
+    <td><label>Reason Name:</label></td>
+    <td>
+      @Html.TextBox("name", ViewData["name"], new { size = 30 })
+    </td>
+  </tr>
+  <tr>
+    <td><label>Limit Results:</label></td>
+    <td>
+      @Html.LimitResults("limit")
+    </td>
+  </tr>
+  <tr>
+    <td colspan="2" style="text-align:center;padding-top:20px;">
+      <input type="submit" id="btnSubmit" name="btnSubmit" value="Search" style="width: 80px;" />
+    </td>
+  </tr>
+</table>
+@{ Html.EndForm(); }
+
+@if (ViewData.Model != null) {
+<h2>Search Results</h2>
+
+<table id="results" class="list" width="100%" cellpadding="2" cellspacing="0">
+  <colgroup>
+    <col style="width:100px;"/>
+    <col />
+    <col style="width:25px;"/>
+  </colgroup>
+  <tr>
+    <th>Code</th>
+    <th>Name</th>
+    <th>&nbsp;</th>
+  </tr>
+  @if (Model.Count > 0)
+  {
+    foreach (var row in Model)
+	  {
+      <tr class="@Html.Cycle("odd", "even")">
+        <td>@row.Code</td>
+        <td>@row.Name</td>
+        <td class="center">
+          <a href="#" title="Select model.">
+            <img src="@Url.Content("~/Content/Images/open.png")" />
+          </a>
+        </td>
+      </tr>
+	  }
+  }
+  else
+  {
+    <tr>
+      <td class="listError" colspan="3">
+        No rejection reasons found.
+      </td>
+    </tr>
+  }
+</table>
+<div class="listResults">@Model.Count Record(s)</div>
+}
+
+@section scripts
+{
+  <script type="text/javascript">
+    var win = parent;
+
+    $(function () {
+      $("#results a").click(selectResult);
+    });
+
+    function selectResult(e) {
+      var row = $(this).parent().parent();
+      var code = row.children("td:eq(0)").text();
+
+      win.loadRejectionReason(code);
+      win.$("#searchDialog").dialog("close");
+
+      return false;
+    }
+  </script>
+}

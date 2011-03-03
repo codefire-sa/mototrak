@@ -1,0 +1,507 @@
+﻿@model WarrantyClaimModel
+
+@{
+  Layout = "~/Views/Shared/_ApplicationLayout.cshtml";
+}
+
+<h1>@ViewBag.Title</h1>
+
+<ul id="toolBar" class="toolBar">
+  <li>@Html.ActionLink("Edit", "Edit", new { controller = "WarrantyClaim", id = Model.Claim.Id }, new { id = "editButton", title = "Edit the claim." })</li>
+  <li>@Html.ActionLink("Queue", "Queue", new { controller = "Claim" }, new { id = "queueButton", title = "Goto your claim queue." })</li>
+  <li>@Html.ActionLink("Search", "Search", new { controller = "Claim" }, new { id = "searchButton", title = "Search for another claim." })</li>
+
+  <li>
+    <a id="actionButton">Actions</a>
+    <ul>
+      <li>@Html.ActionLink("Vehicle Notes", "DisplayNotes", new { controller = "Vehicle", area = "Policy", id = Model.Claim.VehicleId }, new { id = "vehicleNotesAction", title = "View the vehicle notes." })</li>
+      <li>@Html.ActionLink("Service History", "DisplayServiceHistory", new { controller = "Vehicle", area = "Policy", id = Model.Claim.VehicleId }, new { id = "serviceHistoryAction", title = "View the service history." })</li>
+      <li>@Html.ActionLink("Claim History", "DisplayClaimHistory", new { controller = "Claim", area = "Claim", id = Model.Claim.VehicleId }, new { id = "claimHistoryAction", title = "View the claim history." })</li>
+      <li>@Html.ActionLink("Claim Notes", "DisplayNotes", new { controller = "Claim", area = "Claim", id = Model.Claim.Id }, new { id = "claimNotesAction", title = "View the claim notes." })</li>
+      <li>@Html.ActionLink("Claim Transactions", "DisplayTransactions", new { controller = "Claim", area = "Claim", id = Model.Claim.Id }, new { title = "View the claim transactions." })</li>
+      <li>@Html.ActionLink("Claim Status History", "DisplayStatusHistory", new { controller = "Claim", area = "Claim", id = Model.Claim.Id }, new { id = "statusHistoryAction", title = "View the claim status history." })</li>
+    </ul>
+  </li>
+
+  <li>
+    <a id="workflowButton">Workflow</a>
+    <ul>
+      <li>@Html.ActionLink("Submit", "Submit", new { id = Model.Claim.Id }, new { title = "Submit the claim." })</li>
+      <li>@Html.ActionLink("Approve", "Approve", new { id = Model.Claim.Id }, new { title = "Approve the claim." })</li>
+      <li>@Html.ActionLink("Reject", "Reject", new { id = Model.Claim.Id }, new { title = "Reject the claim." })</li>
+      <li>@Html.ActionLink("Invoice", "Invoice", new { id = Model.Claim.Id }, new { title = "Invoice the claim." })</li>
+      <li>@Html.ActionLink("Transfer", "Transfer", new { id = Model.Claim.Id }, new { title = "Transfer the claim." })</li>
+      <li>@Html.ActionLink("Return to Dealer", "Return", new { id = Model.Claim.Id }, new { title = "Return the claim to the dealer." })</li>
+      <li>@Html.ActionLink("Cancel", "Cancel", new { id = Model.Claim.Id }, new { title = "Cancel the claim." })</li>
+    </ul>
+  </li>
+</ul>
+
+<table cellpadding="2" cellspacing="0" border="0">
+  <colgroup>
+      <col style="width: 175px" />
+      <col />
+  </colgroup>
+  <tr>
+      <td><label>Claim No:</label></td>
+      <td colspan="3">@Model.Claim.Code</td>
+  </tr>
+</table>
+
+<br />
+
+<h2>Policy Information</h2>
+<table cellpadding="2" cellspacing="0" border="0">
+  <colgroup>
+      <col style="width: 175px" />
+      <col style="width: 275px" />
+      <col style="width: 175px" />
+      <col style="width: 275px" />
+  </colgroup>
+  <tr>
+      <td><label>Chassis No:</label></td>
+      <td>@Model.Policy.ChassisNumber</td>
+      <td><label>VIN No:</label></td>
+      <td>@Model.Policy.VinNumber</td>
+  </tr>
+  <tr>
+      <td><label>Engine No:</label></td>
+      <td>@Model.Policy.EngineNumber</td>
+      <td><label>Registration No:</label></td>
+      <td>@Model.Policy.RegistrationNumber</td>
+  </tr>
+  <tr>
+      <td><label>Model:</label></td>
+      <td colspan="3">@Model.Policy.Model</td>
+  </tr>
+  <tr>
+      <td><label>Customer:</label></td>
+      <td colspan="3">@Model.Policy.Customer</td>
+  </tr>
+  <tr>
+      <td><label>Selling Dealer:</label></td>
+      <td colspan="3">@Model.Policy.Dealer</td>
+  </tr>
+  <tr>
+      <td><label>Product:</label></td>
+      <td colspan="3">@Model.Policy.Product</td>
+  </tr>
+  <tr>
+      <td><label>Start Date:</label></td>
+      <td>@DateUtility.FormatDate(Model.Policy.StartDate, "dd/MM/yyyy")</td>
+      <td><label>End Date:</label></td>
+      <td>@DateUtility.FormatDate(Model.Policy.EndDate, "dd/MM/yyyy")</td>
+  </tr>
+  <tr>
+      <td><label>Start KM:</label></td>
+      <td>@Model.Policy.StartDistance</td>
+      <td><label>End KM:</label></td>
+      <td>@Model.Policy.EndDistance</td>
+  </tr>
+  <tr>
+      <td><label>Current Distance:</label></td>
+      <td colspan="3">@Model.Policy.CurrentDistance</td>
+  </tr>
+</table>
+
+<br />
+
+<h2>Claim Information</h2>
+<table cellpadding="2" cellspacing="0" border="0">
+  <colgroup>
+      <col style="width: 175px" />
+      <col style="width: 275px" />
+      <col style="width: 175px" />
+      <col style="width: 275px" />
+  </colgroup>
+  <tr>
+      <td><label>Repairing Dealer:</label></td>
+      <td colspan="3">@Model.Claim.Dealer</td>
+  </tr>
+  <tr>
+      <td><label>Job Card No:</label></td>
+      <td>@Model.Claim.JobCardNumber</td>
+      <td><label>Invoice No:</label></td>
+      <td>@Model.Claim.InvoiceNumber</td>
+  </tr>
+  <tr>
+      <td><label>DDW Claim No:</label></td>
+      <td>@Model.Claim.ExternalNumber</td>
+      <td><label>EPQR No:</label></td>
+      <td>&nbsp;</td>
+  </tr>
+  <tr>
+      <td><label>Claim Date:</label></td>
+      <td>@DateUtility.FormatDate(Model.Claim.ClaimDate, "dd/MM/yyyy")</td>
+      <td><label>Claim Distance:</label></td>
+      <td>@Model.Claim.ClaimDistance</td>
+  </tr>
+  <tr>
+      <td><label>Repair Date:</label></td>
+      <td>@DateUtility.FormatDate(Model.Claim.RepairDate, "dd/MM/yyyy")</td>
+      <td><label>Submit Date:</label></td>
+      <td>@DateUtility.FormatDate(Model.Claim.SubmitDate, "dd/MM/yyyy")</td>
+  </tr>
+  <tr>
+      <td><label>Program:</label></td>
+      <td>@Model.Claim.Program</td>
+      <td><label>Claim Type:</label></td>
+      <td>@Model.Claim.ClaimType</td>
+  </tr>
+  <tr>
+      <td><label>Claim Status:</label></td>
+      <td>@Model.Claim.ClaimStatus</td>
+      <td><label>Queue User:</label></td>
+      <td>&nbsp;</td>
+  </tr>
+  <tr>
+      <td><label>Rejection Reason:</label></td>
+      <td colspan="3">@Model.Claim.RejectionReason</td>
+  </tr>
+  <tr>
+      <td><label>Fault:</label></td>
+      <td colspan="3">@Model.Claim.Fault</td>
+  </tr>
+  <tr>
+      <td><label>Customer Concern:</label></td>
+      <td colspan="3">@Model.Claim.CustomerConcern</td>
+  </tr>
+  <tr>
+      <td><label>Condition:</label></td>
+      <td colspan="3">@Model.Claim.Condition</td>
+  </tr>
+</table>
+
+<br />
+
+<h2>Claim Notes</h2>
+<table cellpadding="2" cellspacing="0" border="0">
+  <colgroup>
+      <col style="width: 175px" />
+      <col />
+  </colgroup>
+  <tr>
+      <td valign="top"><label>Fault:</label></td>
+      <td>@Model.Claim.FaultNote</td>
+  </tr>
+  <tr>
+      <td valign="top"><label>Cause:</label></td>
+      <td>@Model.Claim.CauseNote</td>
+  </tr>
+  <tr>
+      <td valign="top"><label>Remedy:</label></td>
+      <td>@Model.Claim.RemedyNote</td>
+  </tr>
+</table>
+
+<br />
+
+<h2>Labour Information</h2>
+<table class="list" width="100%" cellpadding="2" cellspacing="0" border="0">
+  <colgroup>
+    <col style="width:120px;"/>
+    <col />
+    <col style="width:60px;"/>
+    <col style="width:80px;"/>
+    <col style="width:50px;"/>
+  </colgroup>
+  <tr>
+    <th>Code</th>
+    <th>Name</th>
+    <th class="right">Hours</th>
+    <th class="right">Total</th>
+    <th>&nbsp;</th>
+  </tr>
+@if (Model.Labour.Count > 0)
+{
+  foreach (var row in Model.Labour)
+  {
+  <tr class="@Html.Cycle("odd", "even")">
+    <td>@row.Labour.Code</td>
+    <td>@row.Labour.Name</td>
+    <td class="right">@row.Hours.ToString("n2")</td>
+    <td class="right">@row.ItemAmount.ToString("n2")</td>
+    <td class="center">
+      <a href="@Url.Action("Edit", "WarrantyLabour", new { id = row.Id, area = "Claim" }) " title="Edit labour item.">
+        <img src="@Url.Content("~/Content/Images/edit.png")" />
+      </a>
+      <a href="@Url.Action("Delete", "WarrantyLabour", new { id = row.Id, area = "Claim" }) " title="Delete labour item.">
+        <img src="@Url.Content("~/Content/Images/delete.png")" />
+      </a>
+    </td>
+  </tr>
+  }
+}
+else
+{
+  <tr>
+    <td class="listError" colspan="5">
+      No items loaded.
+    </td>
+  </tr>
+}
+</table>
+<div style="padding-top:10px;">
+  @Html.ActionLink("Add Labour", "Create", "WarrantyLabour", new { id = Model.Claim.Id, area = "Claim" }, new { @class = "action add", title = "Add labour items to this claim." })
+</div>
+
+<br />
+
+<h2>Part Information</h2>
+<table class="list" width="100%" cellpadding="2" cellspacing="0" border="0">
+  <colgroup>
+    <col style="width:120px;"/>
+    <col />
+    <col style="width:80px;"/>
+    <col style="width:80px;"/>
+    <col style="width:60px;"/>
+    <col style="width:80px;"/>
+    <col style="width:50px;"/>
+  </colgroup>
+  <tr>
+    <th>Code</th>
+    <th>Name</th>
+    <th>Type</th>
+    <th>Purchased</th>
+    <th class="right">Qty</th>
+    <th class="right">Total</th>
+    <th>&nbsp;</th>
+  </tr>
+@if (Model.Parts.Count > 0)
+{
+  foreach (var row in Model.Parts)
+  {
+  <tr class="@Html.Cycle("odd", "even")">
+    <td>@row.Part.Code</td>
+    <td>@row.Part.Name</td>
+    <td>@row.PartType.Name</td>
+    <td>@DateUtility.FormatDate(row.PurchaseDate, "dd/MM/yyyy")</td>
+    <td class="right">@row.Quantity.ToString("n2")</td>
+    <td class="right">@row.ItemAmount.ToString("n2")</td>
+    <td class="center">
+      <a href="@Url.Action("Edit", "WarrantyPart", new { id = row.Id, area = "Claim" }) " title="Edit part.">
+        <img src="@Url.Content("~/Content/Images/edit.png")" />
+      </a>
+      <a href="@Url.Action("Delete", "WarrantyPart", new { id = row.Id, area = "Claim" }) " title="Delete part.">
+        <img src="@Url.Content("~/Content/Images/delete.png")" />
+      </a>
+    </td>
+  </tr>
+  }
+}
+else
+{
+  <tr>
+    <td class="listError" colspan="7">
+      No items loaded.
+    </td>
+  </tr>
+}
+</table>
+<div style="padding-top:10px;">
+  @Html.ActionLink("Add Parts", "Create", "WarrantyPart", new { id = Model.Claim.Id, area = "Claim" }, new { @class = "action add", title = "Add parts to this claim." })
+</div>
+
+<br />
+
+<h2>Miscellaneous Information</h2>
+<table class="list" width="100%" cellpadding="2" cellspacing="0" border="0">
+  <colgroup>
+    <col style="width:120px;"/>
+    <col />
+    <col />
+    <col style="width:120px;"/>
+    <col style="width:80px;"/>
+    <col style="width:50px;"/>
+  </colgroup>
+  <tr>
+    <th>Code</th>
+    <th>Name</th>
+    <th>Supplier</th>
+    <th>Invoice No</th>
+    <th class="right">Total</th>
+    <th>&nbsp;</th>
+  </tr>
+@if (Model.Miscellaneous.Count > 0)
+{
+  foreach (var row in Model.Miscellaneous)
+  {
+  <tr class="@Html.Cycle("odd", "even")">
+    <td>@row.Miscellaneous.Code</td>
+    <td>@row.Miscellaneous.Name</td>
+    <td>@row.SupplierName</td>
+    <td>@row.InvoiceNumber</td>
+    <td class="right">@row.ItemAmount.ToString("n2")</td>
+    <td class="center">
+      <a href="@Url.Action("Edit", "WarrantyMiscellaneous", new { id = row.Id, area = "Claim" }) " title="Edit miscellaneous item.">
+        <img src="@Url.Content("~/Content/Images/edit.png")" />
+      </a>
+      <a href="@Url.Action("Delete", "WarrantyMiscellaneous", new { id = row.Id, area = "Claim" }) " title="Delete miscellaneous item.">
+        <img src="@Url.Content("~/Content/Images/delete.png")" />
+      </a>
+    </td>
+  </tr>
+  }
+}
+else
+{
+  <tr>
+    <td class="listError" colspan="6">
+      No items loaded.
+    </td>
+  </tr>
+}
+</table>
+<div style="padding-top:10px;">
+  @Html.ActionLink("Add Miscellaneous", "Create", "WarrantyMiscellaneous", new { id = Model.Claim.Id, area = "Claim" }, new { @class = "action add", title = "Add miscellaneous items to this claim." })
+</div>
+
+<br />
+
+<h2>Attachments</h2>
+<table class="list" width="100%" cellpadding="2" cellspacing="0" border="0">
+  <colgroup>
+    <col />
+    <col style="width:100px;"/>
+    <col style="width:100px;"/>
+    <col style="width:40px;"/>
+  </colgroup>
+  <tr>
+    <th>File Name</th>
+    <th>Size</th>
+    <th>Created</th>
+    <th>&nbsp;</th>
+  </tr>
+@if (Model.Attachments.Count > 0)
+{
+  foreach (var row in Model.Attachments)
+  {
+  <tr class="@Html.Cycle("odd", "even")">
+    <td>@row.FileName</td>
+    <td>@StringUtility.FormatSize(row.ContentSize)</td>
+    <td>@row.CreateDate.ToString("dd/MM/yyyy")</td>
+    <td class="center">
+      <a href="@Url.Action("Download", "Attachment", new { id = row.Id, area = "Claim" }) " title="Open attachment.">
+        <img src="@Url.Content("~/Content/Images/open.png")" />
+      </a>
+      <a href="@Url.Action("Delete", "Attachment", new { id = row.Id, area = "Claim" }) " title="Delete attachment.">
+        <img src="@Url.Content("~/Content/Images/delete.png")" />
+      </a>
+    </td>
+  </tr>
+  }
+}
+else
+{
+  <tr>
+    <td class="listError" colspan="4">
+      No items loaded.
+    </td>
+  </tr>
+}
+</table>
+<div style="padding-top:10px;">
+  @Html.ActionLink("Add Attachments", "Create", "Attachment", new { id = Model.Claim.Id, area = "Claim" }, new { @class = "action add", title = "Add attachments to this claim." })
+</div>
+
+<br />
+
+<h2>Claim Amounts</h2>
+<table cellpadding="2" cellspacing="0" border="0">
+  <colgroup>
+      <col style="width: 175px" />
+      <col style="width: 100px" />
+      <col style="width: 100px" />
+      <col style="width: 100px" />
+  </colgroup>
+  <tr>
+      <td>&nbsp;</td>
+      <td class="right"><label>Claimed</label></td>
+      <td class="right"><label>Auth %</label></td>
+      <td class="right"><label>Authorised</label></td>
+  </tr>
+  <tr>
+      <td><label>Labour:</label></td>
+      <td class="right">@Model.Claim.ClaimAmount.LabourAmount.ToString("n2")</td>
+      <td class="right">@Model.Claim.LabourAuthorisedPercent</td>
+      <td class="right">@Model.Claim.AuthorisedAmount.LabourAmount.ToString("n2")</td>
+  </tr>
+  <tr>
+      <td><label>Parts:</label></td>
+      <td class="right">@Model.Claim.ClaimAmount.PartAmount.ToString("n2")</td>
+      <td class="right">@Model.Claim.PartAuthorisedPercent</td>
+      <td class="right">@Model.Claim.AuthorisedAmount.PartAmount</td>
+  </tr>
+  <tr>
+      <td><label>Miscellaneous:</label></td>
+      <td class="right">@Model.Claim.ClaimAmount.MiscellaneousAmount</td>
+      <td class="right">@Model.Claim.MiscellaneousAuthorisedPercent</td>
+      <td class="right">@Model.Claim.AuthorisedAmount.MiscellaneousAmount</td>
+  </tr>
+  <tr>
+      <td><label>VAT:</label></td>
+      <td class="right">@Model.Claim.ClaimAmount.TaxAmount</td>
+      <td>&nbsp;</td>
+      <td class="right">@Model.Claim.AuthorisedAmount.TaxAmount</td>
+  </tr>
+  <tr>
+      <td><label>Total:</label></td>
+      <td class="right">@Model.Claim.ClaimAmount.TotalAmount</td>
+      <td>&nbsp;</td>
+      <td class="right">@Model.Claim.AuthorisedAmount.TotalAmount</td>
+  </tr>
+</table>
+
+<div id="informationDialog" style="display: none">
+  <iframe id="informationFrame" width="100%" height="100%" marginWidth="0" marginHeight="0" frameBorder="0" scrolling="auto"></iframe>
+</div>
+
+@section scripts
+{
+  @Html.ScriptLink("jquery-ui.js")
+
+  <script type="text/javascript">
+    function initializePage() {
+      $("#editButton").button();
+      $("#queueButton").button();
+      $("#searchButton").button();
+      $("#actionButton").button({
+        icons: {
+          secondary: "ui-icon-triangle-1-s"
+        }
+      });
+      $("#workflowButton").button({
+        icons: {
+          secondary: "ui-icon-triangle-1-s"
+        },
+        text: true
+      });
+
+      $("#vehicleNotesAction").click(showDialog);
+      $("#serviceHistoryAction").click(showDialog);
+      $("#claimHistoryAction").click(showDialog);
+      $("#claimNotesAction").click(showDialog);
+      $("#statusHistoryAction").click(showDialog);
+
+      $("#informationDialog").dialog({
+        autoOpen: false,
+        modal: true,
+        height: 500,
+        width: 800
+      });
+
+      initializeMenu("toolBar");
+    }
+
+    function showDialog(e) {
+      e.preventDefault();
+
+      var url = $(this).attr("href");
+      var title = $(this).text();
+
+      $("#informationDialog").dialog("option", "title", title);
+      $("#informationDialog").dialog("open");
+      $("#informationFrame").attr("src", url);
+    }
+  </script>
+}

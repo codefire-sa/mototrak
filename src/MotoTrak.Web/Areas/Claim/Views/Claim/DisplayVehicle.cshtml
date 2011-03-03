@@ -1,0 +1,116 @@
+﻿@model VehicleSummaryEntity
+
+@{
+  Layout = "~/Views/Shared/_ApplicationLayout.cshtml";
+}
+
+<h1>@ViewBag.Title</h1>
+
+<ul id="toolBar" class="toolBar">
+  <li>@Html.ActionLink("Search", "VehicleSearch", new { controller = "Claim" }, new { id = "searchButton", title = "Search for another vehicle." })</li>
+
+  <li>
+    <a id="actionButton">Actions</a>
+    <ul>
+      <li>@Html.ActionLink("Vehicle Notes", "DisplayNotes", new { controller = "Vehicle", area = "Policy", id = Model.Id }, new { id = "vehicleNotesAction", title = "View the vehicle notes." })</li>
+      <li>@Html.ActionLink("Service History", "DisplayServiceHistory", new { controller = "Vehicle", area = "Policy", id = Model.Id }, new { id = "serviceHistoryAction", title = "View the service history." })</li>
+      <li>@Html.ActionLink("Claim History", "DisplayClaimHistory", new { controller = "Claim", area = "Claim", id = Model.Id }, new { id = "claimHistoryAction", title = "View the claim history." })</li>
+    </ul>
+  </li>
+
+  <li>
+    <a id="newButton">New</a>
+    <ul>
+      <li>@Html.ActionLink("Warranty Claim", "Create", new { controller = "WarrantyClaim", area = "Claim", id = Model.Id }, new { title = "Create a warranty claim." })</li>
+    </ul>
+  </li>
+</ul>
+
+<table cellpadding="2" cellspacing="0" border="0">
+  <colgroup>
+      <col style="width: 175px" />
+      <col style="width: 275px" />
+      <col style="width: 175px" />
+      <col style="width: 275px" />
+  </colgroup>
+  <tr>
+      <td><label>Chassis No:</label></td>
+      <td>@Model.ChassisNumber</td>
+      <td><label>VIN No:</label></td>
+      <td>@Model.VinNumber</td>
+  </tr>
+  <tr>
+      <td><label>Engine No:</label></td>
+      <td>@Model.EngineNumber</td>
+      <td><label>Registration No:</label></td>
+      <td>@Model.RegistrationNumber</td>
+  </tr>
+  <tr>
+      <td><label>Model:</label></td>
+      <td colspan="3">@Model.Model</td>
+  </tr>
+  <tr>
+      <td><label>Customer:</label></td>
+      <td colspan="3">@Model.Customer</td>
+  </tr>
+  <tr>
+      <td><label>Selling Dealer:</label></td>
+      <td colspan="3">@Model.Dealer</td>
+  </tr>
+  <tr>
+      <td><label>Registration Date:</label></td>
+      <td>@DateUtility.FormatDate(Model.RegistrationDate, "dd/MM/yyyy")</td>
+      <td><label>Current KM:</label></td>
+      <td>@Model.CurrentDistance</td>
+  </tr>
+</table>
+
+<div id="informationDialog" style="display: none">
+  <iframe id="informationFrame" width="100%" height="100%" marginWidth="0" marginHeight="0" frameBorder="0" scrolling="auto"></iframe>
+</div>
+
+@section scripts
+{
+  @Html.ScriptLink("jquery-ui.js")
+
+  <script type="text/javascript">
+    function initializePage() {
+      $("#searchButton").button();
+      $("#actionButton").button({
+        icons: {
+          secondary: "ui-icon-triangle-1-s"
+        }
+      });
+      $("#newButton").button({
+        icons: {
+          secondary: "ui-icon-triangle-1-s"
+        },
+        text: true
+      });
+
+      $("#vehicleNotesAction").click(showDialog);
+      $("#serviceHistoryAction").click(showDialog);
+      $("#claimHistoryAction").click(showDialog);
+
+      $("#informationDialog").dialog({
+        autoOpen: false,
+        modal: true,
+        height: 500,
+        width: 800
+      });
+
+      initializeMenu("toolBar");
+    }
+
+    function showDialog(e) {
+      e.preventDefault();
+
+      var url = $(this).attr("href");
+      var title = $(this).text();
+
+      $("#informationDialog").dialog("option", "title", title);
+      $("#informationDialog").dialog("open");
+      $("#informationFrame").attr("src", url);
+    }
+  </script>
+}

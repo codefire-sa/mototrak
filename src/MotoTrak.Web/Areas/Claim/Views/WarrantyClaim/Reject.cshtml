@@ -1,0 +1,102 @@
+﻿@model WarrantyClaimRejectModel
+@{
+   Layout = "~/Views/Shared/_ApplicationLayout.cshtml";
+}
+
+<h1>@ViewBag.Title</h1>
+
+@{ Html.BeginForm(); }
+<table cellpadding="2" cellspacing="0" border="0">
+  <colgroup>
+    <col style="width: 150px" />
+    <col />
+  </colgroup>
+  <tr>
+    <td><label>Rejection Reason:</label></td>
+    <td>
+      @Html.Hidden("rejectionReasonId", Model.RejectionReason.Id)
+      @Html.TextBox("rejectionReasonCode", Model.RejectionReason.Code, new { size = 30, autocomplete = "off" })
+      <a id="rejectionReasonSearch" href="#" title="Rejection Reason Search"><img src="@Url.Content("~/Content/Images/search.png")" /></a>
+      <span id="rejectionReasonName">@Model.RejectionReason.Name</span>
+    </td>
+  </tr>
+  <tr>
+    <td valign="top"><label>Comment:</label></td>
+    <td><textarea name="comment" cols="60" rows="7"></textarea></td>
+  </tr>
+</table>
+
+<div style="text-align:center;padding-top:20px;">
+  <input type="submit" id="btnSave" name="btnSave" value="Reject" style="width: 80px;" />
+  or
+  @Html.ActionLink("cancel", "Display", new { id = 1 } )
+</div>
+@{ Html.EndForm(); }
+
+<div id="searchDialog" style="display: none">
+  <iframe id="searchFrame" width="100%" height="100%" marginWidth="0" marginHeight="0" frameBorder="0" scrolling="auto"></iframe>
+</div>
+
+@section scripts
+{
+  @Html.ScriptLink("jquery-ui.js")
+
+  <script type="text/javascript">
+    var rejectionReasonUrl = "@Url.Action("GetRejectionReason", "Ajax", new { area = "" })";
+    var rejectionReasonSearchUrl = "@Url.Action("RejectionReason", "Search", new { area = "" })";
+  
+    function initializePage() {
+      $("#rejectionReasonCode").change(rejectionReason_change);
+      $("#rejectionReasonSearch").click(rejectionReason_search);
+    
+      $("#searchDialog").dialog({
+          autoOpen: false,
+          modal: true,
+          height: 500,
+          width: 800
+        });
+    }
+
+    function rejectionReason_change(e) {
+      var code = $("#rejectionReasonCode").val();
+      loadRejectionReason(code);
+    }
+  
+    function rejectionReason_search(e) {
+      e.preventDefault();
+
+      $("#searchDialog").dialog("option", "title", "Rejection Reason Search");
+      $("#searchDialog").dialog("open");
+      $("#searchFrame").attr("src", rejectionReasonSearchUrl);
+    }
+
+    function loadRejectionReason(code)
+    {
+      if (code == "")
+      {
+        $("#rejectionReasonId").val(0);
+        $("#rejectionReasonName").text("");
+      }
+      else
+      {
+        $("#rejectionReasonName").text("Loading...");
+        $.getJSON(rejectionReasonUrl, { code: code }, rejectionReason_ajax);
+      }
+    }
+
+    function rejectionReason_ajax(obj)
+    {
+      $("#rejectionReasonId").val(obj.Id);
+      $("#rejectionReasonCode").val(obj.Code);
+
+      if (obj.Id == 0)
+      {
+        $("#rejectionReasonName").text(obj.ErrorMessage);
+      }
+      else
+      {
+        $("#rejectionReasonName").text(obj.Name);
+      }
+    }
+  </script>
+}

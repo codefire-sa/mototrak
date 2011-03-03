@@ -1,0 +1,107 @@
+﻿@using System.Data
+@model DataTable
+
+<h2>Search Criteria</h2>
+
+@{ Html.BeginForm(); }
+<table cellpadding="2" cellspacing="0" border="0" width="100%">
+  <colgroup>
+    <col style="width: 175px" />
+    <col />
+    <col style="width: 175px" />
+    <col />
+  </colgroup>
+  <tr>
+    <td><label>Chassis No:</label></td>
+    <td>
+      @Html.TextBox("chassisNumber", ViewData["chassisNumber"], new { size = 30 })
+    </td>
+    <td><label>VIN No:</label></td>
+    <td>
+      @Html.TextBox("vinNumber", ViewData["vinNumber"], new { size = 30 })
+    </td>
+  </tr>
+  <tr>
+    <td><label>Engine No:</label></td>
+    <td>
+      @Html.TextBox("engineNumber", ViewData["engineNumber"], new { size = 30 })
+    </td>
+    <td><label>Registration No:</label></td>
+    <td>
+      @Html.TextBox("registrationNumber", ViewData["registrationNumber"], new { size = 30 })
+    </td>
+  </tr>
+  <tr>
+    <td><label>Initials:</label></td>
+    <td>
+      @Html.TextBox("initials", ViewData["initials"], new { size = 30 }) 
+    </td>
+    <td><label>Surname:</label></td>
+    <td>
+      @Html.TextBox("lastName", ViewData["lastName"], new { size = 30 }) 
+    </td>
+  </tr>
+  <tr>
+    <td><label>Limit Results:</label></td>
+    <td colspan="3">
+      @Html.LimitResults("limit")
+    </td>
+  </tr>
+  <tr>
+    <td colspan="4" style="text-align:center;padding-top:20px;">
+      <button type="submit" id="btnSubmit" name="btnSubmit" value="Search" style="width: 80px;">Search</button>
+    </td>
+  </tr>
+</table>
+@{ Html.EndForm(); }
+
+@if (ViewData.Model != null)
+{
+  var resultArea = ViewData.Get<string>("resultArea");
+  var resultController = ViewData.Get<string>("resultController");
+  var resultAction = ViewData.Get<string>("resultAction");
+
+  <h2>Search Results</h2>
+
+  <table class="list" width="100%" cellpadding="2" cellspacing="0">
+    <colgroup>
+      <col style="width:100px;"/>
+      <col style="width:150px;"/>
+      <col />
+      <col />
+      <col style="width:100px;"/>
+      <col style="width:25px;"/>
+    </colgroup>
+    <tr>
+      <th>Chassis No</th>
+      <th>Vin No</th>
+      <th>Customer</th>
+      <th>Model</th>
+      <th>Reg No</th>
+      <th>&nbsp;</th>
+    </tr>
+  @if (Model.Rows.Count > 0) {
+    foreach(DataRow row in Model.Rows) {
+      <tr class="@Html.Cycle("odd", "even")">
+        <td>@(row.Get<string>("ChassisNumber"))</td>
+        <td>@(row.Get<string>("VinNumber"))</td>
+        <td>@StringUtility.BuildList(" ", row.Get<string>("Initials"), row.Get<string>("LastName"))</td>
+        <td>@(row.Get<string>("ModelName"))</td>
+        <td>@(row.Get<string>("RegistrationNumber"))</td>
+        <td class="center">
+          <a href="@Url.Action(resultAction, resultController, new { id = row.Get<int>("Id"), area = resultArea }) " title="Select vehicle.">
+            <img src="@Url.Content("~/Content/Images/open.png") " />
+          </a>
+        </td>
+      </tr>
+    }
+  } else {
+    <tr>
+      <td class="listError" colspan="6">
+        No vehicles found.
+      </td>
+    </tr>
+  }
+  </table>
+  <div class="listResults">@Model.Rows.Count Record(s)</div>
+}

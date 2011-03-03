@@ -1,0 +1,33 @@
+﻿@model PolicyEntity
+
+@{
+  Layout = "~/Views/Shared/_ApplicationLayout.cshtml";
+}
+
+<h1>@ViewBag.Title</h1>
+
+@{Html.BeginForm(); }
+<table cellpadding="2" cellspacing="0" border="0">
+  <colgroup>
+    <col style="width: 175px" />
+    <col />
+  </colgroup>
+  <tr>
+    <td><label>Product:</label></td>
+    <td>@Html.DropDownList("productId", null, "", new { style = "width:205px"})</td>
+  </tr>
+  <tr>
+    <td><label>Start Date:</label></td>
+    <td>@Html.TextBox("startDate", DateUtility.FormatDate(Model.StartDate, "dd/MM/yyyy"), new { size = 30 })</td>
+  </tr>
+  <tr>
+    <td><label>Start KM:</label></td>
+    <td>@Html.TextBox("startDistance", Model.StartDistance, new { size = 30 })</td>
+  </tr>
+</table>
+<div style="text-align:center;padding-top:20px;">
+  <input type="submit" id="btnSave" name="btnSave" value="Update" style="width: 80px;" />
+  or
+  @Html.ActionLink("cancel", "Display", new { id = Model.Id, controller = "Policy", area = "Policy"} )
+</div>
+@{ Html.EndForm(); }

@@ -1,0 +1,50 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MotoTrak.Web", "MotoTrak.Web\MotoTrak.Web.csproj", "{7C2DCB89-9328-4197-8AD2-DA485BDBD5BD}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Framework", "Framework", "{DACEC583-C14D-4033-AD4D-66A5C28C83E0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Codefire", "..\..\Framework\src\Codefire\Codefire.csproj", "{9DDF5814-FD56-491F-B8A3-63FD13C316DC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Codefire.Storm", "..\..\Framework\src\Codefire.Storm\Codefire.Storm.csproj", "{09A171C2-6975-4F7A-B4AB-5E14B3F8040C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MotoTrak.Logic", "MotoTrak.Logic\MotoTrak.Logic.csproj", "{0C39F8D9-FB9E-4CFD-8006-01CCB1954E88}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MotoTrak.Web.Common", "MotorTrak.Web.Common\MotoTrak.Web.Common.csproj", "{AA8E4FBE-D5F7-4939-8390-2D1644BD6C4E}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{7C2DCB89-9328-4197-8AD2-DA485BDBD5BD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7C2DCB89-9328-4197-8AD2-DA485BDBD5BD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7C2DCB89-9328-4197-8AD2-DA485BDBD5BD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7C2DCB89-9328-4197-8AD2-DA485BDBD5BD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9DDF5814-FD56-491F-B8A3-63FD13C316DC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9DDF5814-FD56-491F-B8A3-63FD13C316DC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9DDF5814-FD56-491F-B8A3-63FD13C316DC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9DDF5814-FD56-491F-B8A3-63FD13C316DC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{09A171C2-6975-4F7A-B4AB-5E14B3F8040C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{09A171C2-6975-4F7A-B4AB-5E14B3F8040C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{09A171C2-6975-4F7A-B4AB-5E14B3F8040C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{09A171C2-6975-4F7A-B4AB-5E14B3F8040C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0C39F8D9-FB9E-4CFD-8006-01CCB1954E88}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0C39F8D9-FB9E-4CFD-8006-01CCB1954E88}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0C39F8D9-FB9E-4CFD-8006-01CCB1954E88}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0C39F8D9-FB9E-4CFD-8006-01CCB1954E88}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AA8E4FBE-D5F7-4939-8390-2D1644BD6C4E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AA8E4FBE-D5F7-4939-8390-2D1644BD6C4E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AA8E4FBE-D5F7-4939-8390-2D1644BD6C4E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AA8E4FBE-D5F7-4939-8390-2D1644BD6C4E}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{9DDF5814-FD56-491F-B8A3-63FD13C316DC} = {DACEC583-C14D-4033-AD4D-66A5C28C83E0}
+		{09A171C2-6975-4F7A-B4AB-5E14B3F8040C} = {DACEC583-C14D-4033-AD4D-66A5C28C83E0}
+	EndGlobalSection
+EndGlobal

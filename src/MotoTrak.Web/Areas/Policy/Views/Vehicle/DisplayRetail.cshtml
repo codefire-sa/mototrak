@@ -1,0 +1,253 @@
+﻿@model VehicleModel
+
+@{
+  Layout = "~/Views/Shared/_ApplicationLayout.cshtml";
+}
+
+<h1>@ViewBag.Title</h1>
+
+<ul id="toolBar" class="toolBar">
+  <li>@Html.ActionLink("Edit", "EditRetail", new { controller = "Vehicle", area = "Policy", id = Model.Vehicle.Id }, new { id="editButton", title = "Edit the vehicle." })</li>
+  <li>@Html.ActionLink("Search", "Search", new { controller = "Vehicle", area = "Policy" }, new { id="searchButton", title = "Search for another vehicle." })</li>
+
+  <li>
+    <a id="actionButton">Actions</a>
+    <ul>
+      <li>@Html.ActionLink("Vehicle Notes", "DisplayNotes", new { controller = "Vehicle", area = "Policy", id = Model.Vehicle.Id }, new { id = "vehicleNotesAction", title = "View the vehicle notes." })</li>
+      <li>@Html.ActionLink("Service History", "DisplayServiceHistory", new { controller = "Vehicle", area = "Policy", id = Model.Vehicle.Id }, new { id = "serviceHistoryAction", title = "View the service history." })</li>
+      <li>@Html.ActionLink("Claim History", "DisplayClaimHistory", new { controller = "Claim", area = "Claim", id = Model.Vehicle.Id }, new { id = "claimHistoryAction", title = "View the claim history." })</li>
+    </ul>
+  </li>
+</ul>
+
+<h2>Vehicle Details</h2>
+
+<table cellpadding="2" cellspacing="0" border="0">
+  <colgroup>
+    <col style="width: 175px" />
+    <col style="width: 275px" />
+    <col style="width: 175px" />
+    <col style="width: 275px" />
+  </colgroup>
+  <tr>
+    <td><label>VIN No:</label></td>
+    <td>@Model.Vehicle.VinNumber</td>
+    <td><label>Chassis No:</label></td>
+    <td>@Model.Vehicle.ChassisNumber</td>
+  </tr>
+  <tr>
+      <td><label>Engine No:</label></td>
+      <td>@Model.Vehicle.EngineNumber</td>
+      <td><label>Registration No:</label></td>
+      <td>@Model.Vehicle.RegistrationNumber</td>
+  </tr>
+  <tr>
+      <td><label>Wholesale Date:</label></td>
+      <td>@DateUtility.FormatDate(Model.Vehicle.WholesaleDate, "dd/MM/yyyy")</td>
+      <td><label>Retail Date:</label></td>
+      <td>@DateUtility.FormatDate(Model.Vehicle.RetailDate, "dd/MM/yyyy")</td>
+  </tr>
+  <tr>
+      <td><label>Registration Date:</label></td>
+      <td colspan="3">@DateUtility.FormatDate(Model.Vehicle.RegistrationDate, "dd/MM/yyyy")</td>
+  </tr>
+  <tr>
+      <td><label>Selling Dealer:</label></td>
+      <td colspan="3">@Model.Vehicle.Dealer</td>
+  </tr>
+  <tr>
+      <td><label>Model:</label></td>
+      <td colspan="3">@Model.Vehicle.Model</td>
+  </tr>
+  <tr>
+      <td><label>Current KM:</label></td>
+      <td colspan="3">@Model.Vehicle.CurrentDistance</td>
+  </tr>
+  <tr>
+      <td><label>Status:</label></td>
+      <td colspan="3">@Model.Vehicle.VehicleStatus</td>
+  </tr>
+</table>
+
+<br />
+
+<h2>Customer Details</h2>
+<table cellpadding="2" cellspacing="0" border="0">
+  <colgroup>
+    <col style="width: 175px" />
+    <col style="width: 275px" />
+    <col style="width: 175px" />
+    <col style="width: 275px" />
+  </colgroup>
+  <tr>
+    <td><label>Title:</label></td>
+    <td>@Model.Customer.Title</td>
+    <td><label>Initials:</label></td>
+    <td>@Model.Customer.Initials</td>
+  </tr>
+  <tr>
+    <td><label>First Name:</label></td>
+    <td>@Model.Customer.FirstName</td>
+    <td><label>Surname:</label></td>
+    <td>@Model.Customer.LastName</td>
+  </tr>
+  <tr>
+    <td><label>Identity No:</label></td>
+    <td colspan="3">@Model.Customer.ReferenceNumber</td>
+  </tr>
+  <tr>
+    <td><label>Language:</label></td>
+    <td>@Model.Customer.Language.Name</td>
+    <td><label>Gender:</label></td>
+    <td>@Model.Customer.Gender.Name</td>
+  </tr>
+  <tr>
+    <td><label>Physical Address:</label></td>
+    <td>@Model.Customer.PhysicalAddress.Line1</td>
+    <td><label>Postal Address:</label></td>
+    <td>@Model.Customer.PostalAddress.Line1</td>
+  </tr>
+  <tr>
+    <td>&nbsp;</td>
+    <td>@Model.Customer.PhysicalAddress.Line2</td>
+    <td>&nbsp;</td>
+    <td>@Model.Customer.PostalAddress.Line2</td>
+  </tr>
+  <tr>
+    <td>&nbsp;</td>
+    <td>@Model.Customer.PhysicalAddress.Line3</td>
+    <td>&nbsp;</td>
+    <td>@Model.Customer.PostalAddress.Line3</td>
+  </tr>
+  <tr>
+    <td>&nbsp;</td>
+    <td>@Model.Customer.PhysicalAddress.Line4</td>
+    <td>&nbsp;</td>
+    <td>@Model.Customer.PostalAddress.Line4</td>
+  </tr>
+  <tr>
+    <td><label>Code:</label></td>
+    <td>@Model.Customer.PhysicalAddress.PostCode</td>
+    <td><label>Code:</label></td>
+    <td>@Model.Customer.PostalAddress.PostCode</td>
+  </tr>
+  <tr>
+    <td><label>Home Phone No:</label></td>
+    <td>@Model.Customer.HomePhoneNumber</td>
+    <td><label>Work Phone No:</label></td>
+    <td>@Model.Customer.WorkPhoneNumber</td>
+  </tr>
+  <tr>
+    <td><label>Mobile No:</label></td>
+    <td>@Model.Customer.MobileNumber</td>
+    <td><label>Fax No:</label></td>
+    <td>@Model.Customer.FaxNumber</td>
+  </tr>
+  <tr>
+    <td><label>Email Address:</label></td>
+    <td colspan="3">@Model.Customer.EmailAddress</td>
+  </tr>
+</table>
+
+<br />
+
+<h2>Policy Details</h2>
+<table class="list" width="100%" cellpadding="2" cellspacing="0" border="0">
+  <colgroup>
+    <col />
+    <col style="width:90px;"/>
+    <col style="width:90px;"/>
+    <col style="width:90px;"/>
+    <col style="width:80px;"/>
+    <col style="width:80px;"/>
+    <col style="width:80px;"/>
+    <col style="width:25px;"/>
+  </colgroup>
+  <tr>
+    <th>Product</th>
+    <th>Duration</th>
+    <th>Start Date</th>
+    <th>End Date</th>
+    <th>Start KM</th>
+    <th>End KM</th>
+    <th>Status</th>
+    <th>&nbsp;</th>
+  </tr>
+  @if (Model.Policies.Count > 0)
+  {
+    foreach (var row in Model.Policies)
+    {
+      <tr class="@Html.Cycle("odd", "even")">
+        <td>@row.Product.Name</td>
+        <td>@row.ContractDuration/@row.ContractDistance</td>
+        <td>@DateUtility.FormatDate(row.StartDate, "dd/MM/yyyy")</td>
+        <td>@DateUtility.FormatDate(row.EndDate, "dd/MM/yyyy")</td>
+        <td>@row.StartDistance.ToString("n0")</td>
+        <td>@row.EndDistance.ToString("n0")</td>
+        <td>@row.PolicyStatus.Name</td>
+        <td class="center">
+          <a href="@Url.Action("Display", "Policy", new { id = row.Id, area = "Policy" }) " title="Select policy.">
+            <img src="@Url.Content("~/Content/Images/open.png")" />
+          </a>
+        </td>
+      </tr>
+    }
+  }
+  else
+  {
+    <tr>
+      <td class="listError" colspan="8">
+        No policies found.
+      </td>
+    </tr>
+  }
+</table>
+<div style="padding-top:10px;">
+  @Html.ActionLink("Add Policy", "Create", new { id = Model.Vehicle.Id, controller = "Policy", area = "Policy" }, new { @class = "action add", title = "Add a policy." })
+</div>
+
+<div id="informationDialog" style="display: none">
+  <iframe id="informationFrame" width="100%" height="100%" marginWidth="0" marginHeight="0" frameBorder="0" scrolling="auto"></iframe>
+</div>
+
+@section scripts
+{
+  @Html.ScriptLink("jquery-ui.js")
+
+  <script type="text/javascript">
+    $(function () {
+      $("#editButton").button();
+      $("#searchButton").button();
+      $("#actionButton").button({
+        icons: {
+          secondary: "ui-icon-triangle-1-s"
+        },
+        text: true
+      });
+
+      $("#vehicleNotesAction").click(showDialog);
+      $("#serviceHistoryAction").click(showDialog);
+      $("#claimHistoryAction").click(showDialog);
+
+      $("#informationDialog").dialog({
+        autoOpen: false,
+        modal: true,
+        height: 500,
+        width: 800
+      });
+
+      initializeMenu("toolBar");
+    });
+
+    function showDialog(e) {
+      e.preventDefault();
+
+      var url = $(this).attr("href");
+      var title = $(this).text();
+
+      $("#informationDialog").dialog("option", "title", title);
+      $("#informationDialog").dialog("open");
+      $("#informationFrame").attr("src", url);
+    }
+  </script>
+}

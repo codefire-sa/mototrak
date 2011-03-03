@@ -1,0 +1,47 @@
+﻿@model WarrantyClaimInvoiceModel
+
+@{
+    Layout = "~/Views/Shared/_ApplicationLayout.cshtml";
+}
+
+<h1>@ViewBag.Title</h1>
+
+@{ Html.BeginForm(); }
+<table cellpadding="2" cellspacing="0" border="0">
+  <colgroup>
+      <col style="width: 150px" />
+      <col />
+  </colgroup>
+  <tr>
+      <td><label>Invoice No:</label></td>
+      <td>@Html.TextBox("invoiceNumber", Model.InvoiceNumber, new { size = "30" })</td>
+  </tr>
+  <tr>
+      <td><label>Repair Date:</label></td>
+      <td>@Html.TextBox("repairDate", DateUtility.FormatDate(Model.RepairDate, "dd/MM/yyyy"), new { size = "30" })</td>
+  </tr>
+  <tr>
+      <td valign="top"><label>Comment:</label></td>
+      <td>@Html.TextArea("comment", new { cols="60", rows="7" })</td>
+  </tr>
+</table>
+
+<div style="text-align:center;padding-top:20px;">
+  <input type="submit" id="btnSave" name="btnSave" value="Invoice" style="width: 80px;" />
+  or
+  @Html.ActionLink("cancel", "Display", new { id = @Model.Id })
+</div>
+@{ Html.EndForm(); }
+
+@section scripts
+{
+@Html.ScriptLink("jquery-ui.js")
+
+<script type="text/javascript">
+  var calendarImage = "@Url.Content("~/Content/Images/calendar.png")";
+
+  function initializePage() {
+    $("#repairDate").datepicker({ dateFormat: 'dd/mm/yy', yearRange: '-5:+0', maxDate: '+0', buttonImageOnly: true, buttonImage: calendarImage, buttonText: 'Select repair date.', showOn: 'button', showAnim: 'show', constraintInput: true });
+  }
+</script>
+}

@@ -1,0 +1,206 @@
+﻿@model ClaimEntity
+
+@{
+   Layout = "~/Views/Shared/_ApplicationLayout.cshtml";
+}
+
+<h1>@ViewBag.Title</h1>
+
+@{ Html.BeginForm(); }
+<table cellpadding="2" cellspacing="0" border="0">
+  <colgroup>
+    <col style="width: 175px" />
+    <col style="width: 250px" />
+    <col style="width: 175px" />
+    <col style="width: 250px" />
+  </colgroup>
+  <tr>
+    <td><label>Claim No:</label></td>
+    <td colspan="3">@Model.Code</td>
+  </tr>
+  <tr>
+    <td><label>Job Card No:</label></td>
+    <td>@Html.TextBox("jobCardNumber", Model.JobCardNumber, new { size = 30 })</td>
+    <td><label>Invoice No:</label></td>
+    <td>@Html.TextBox("invoiceNumber", Model.InvoiceNumber, new { size = 30 })</td>
+  </tr>
+  <tr>
+    <td><label>DDW Claim No:</label></td>
+    <td>@Html.TextBox("externalNumber", Model.ExternalNumber, new { size = 30 })</td>
+    <td><label>EPQR No:</label></td>
+    <td>@Html.TextBox("diagnosticNumber", Model.DiagnosticNumber, new { size = 30 })</td>
+  </tr>
+  <tr>
+    <td><label>Repair Date:</label></td>
+    <td>@Html.TextBox("repairDate", DateUtility.FormatDate(Model.RepairDate, "dd/MM/yyyy"), new { size = 30 })</td>
+    <td><label>Claim Distance:</label></td>
+    <td>@Html.TextBox("claimDistance", Model.ClaimDistance, new { size = 30 })</td>
+  </tr>
+  <tr>
+    <td><label>Program:</label></td>
+    <td>@Html.DropDownList("programId", null, "", new { style = "width:205px"})</td>
+    <td><label>Claim Type:</label></td>
+    <td>@Html.DropDownList("claimTypeId", null, "", new { style = "width:205px"})</td>
+  </tr>
+  <tr>
+    <td><label>Fault:</label></td>
+    <td colspan="3"><input type="text" name="faultCode" size="30" /></td>
+  </tr>
+  <tr>
+    <td><label>Customer Concern:</label></td>
+    <td colspan="3">
+      @Html.Hidden("customerConcernId", Model.CustomerConcern.Id)
+      @Html.TextBox("customerConcernCode", Model.CustomerConcern.Code, new { size = 30, autocomplete = "off" })
+      <a id="customerConcernSearch" href="#" title="Customer Concern Search"><img src="@Url.Content("~/Content/Images/search.png")" /></a>
+      <span id="customerConcernName">@Model.CustomerConcern.Name</span>
+    </td>
+  </tr>
+  <tr>
+    <td><label>Condition:</label></td>
+    <td colspan="3">
+      @Html.Hidden("conditionId", Model.Condition.Id)
+      @Html.TextBox("conditionCode", Model.Condition.Code, new { size = 30 })
+      <a id="conditionSearch" href="#" title="Condition Search"><img src="@Url.Content("~/Content/Images/search.png")" /></a>
+      <span id="conditionName">@Model.Condition.Name</span>
+    </td>
+  </tr>
+</table>
+
+<br />
+
+<h2>Claim Notes</h2>
+<table cellpadding="2" cellspacing="0" border="0">
+  <colgroup>
+    <col style="width: 175px" />
+    <col />
+  </colgroup>
+  <tr>
+    <td valign="top"><label>Fault:</label></td>
+    <td>@Html.TextArea("faultNote", Model.FaultNote, new { cols = 60, rows = 5 })</td>
+  </tr>
+  <tr>
+    <td valign="top"><label>Cause:</label></td>
+    <td>@Html.TextArea("causeNote", Model.CauseNote, new { cols = 60, rows = 5 })</td>
+  </tr>
+  <tr>
+    <td valign="top"><label>Remedy:</label></td>
+    <td>@Html.TextArea("remedyNote", Model.RemedyNote, new { cols = 60, rows = 5 })</td>
+  </tr>
+</table>
+
+<div style="text-align:center;padding-top:20px;">
+  <input type="submit" id="btnSave" name="btnSave" value="Save" style="width: 80px;" />
+  or
+  @Html.ActionLink("cancel", "Display", new { id = Model.Id, controller = "WarrantyClaim", area = "Claim"} )
+</div>
+@{ Html.EndForm(); }
+
+<div id="searchDialog" style="display: none">
+  <iframe id="searchFrame" width="100%" height="100%" marginWidth="0" marginHeight="0" frameBorder="0" scrolling="auto"></iframe>
+</div>
+
+@section scripts
+{
+  @Html.ScriptLink("jquery-ui.js")
+
+  <script type="text/javascript">
+    var customerConcernUrl = "@Url.Action("GetCustomerConcern", "Ajax", new { area = "" })";
+    var customerConcernSearchUrl = "@Url.Action("CustomerConcern", "Search", new { area = "" })";
+    var conditionUrl = "@Url.Action("GetCondition", "Ajax", new { area = "" })";
+    var conditionSearchUrl = "@Url.Action("Condition", "Search", new { area = "" })";
+  
+    $(function() {
+      $("#customerConcernCode").change(customerConcern_change);
+      $("#customerConcernSearch").click(customerConcern_search);
+      $("#conditionCode").change(condition_change);
+      $("#conditionSearch").click(condition_search);
+    
+      $("#searchDialog").dialog({
+          autoOpen: false,
+          modal: true,
+          height: 500,
+          width: 800
+        });
+    });
+
+    function customerConcern_change(e) {
+      var code = $("#customerConcernCode").val();
+      loadCustomerConcern(code);
+    }
+  
+    function customerConcern_search(e) {
+      $("#searchDialog").dialog("option", "title", "Customer Concern Search");
+      $("#searchDialog").dialog("open");
+      $("#searchFrame").attr("src", customerConcernSearchUrl);
+    }
+
+    function loadCustomerConcern(code)
+    {
+      if (code == "")
+      {
+        $("#customerConcernId").val(0);
+        $("#customerConcernName").text("");
+      }
+      else
+      {
+        $("#customerConcernName").text("Loading...");
+        $.getJSON(customerConcernUrl, { code: code }, customerConcern_ajax);
+      }
+    }
+
+    function customerConcern_ajax(obj)
+    {
+      $("#customerConcernId").val(obj.Id);
+      $("#customerConcernCode").val(obj.Code);
+
+      if (obj.Id == 0)
+      {
+        $("#customerConcernName").text(obj.ErrorMessage);
+      }
+      else
+      {
+        $("#customerConcernName").text(obj.Name);
+      }
+    }
+
+    function condition_change(e) {
+      var code = $("#conditionCode").val();
+      loadCondition(code);
+    }
+  
+    function condition_search(e) {
+      $("#searchDialog").dialog("option", "title", "Condition Search");
+      $("#searchDialog").dialog("open");
+      $("#searchFrame").attr("src", conditionSearchUrl);
+    }
+
+    function loadCondition(code)
+    {
+      if (code == "")
+      {
+        $("#conditionId").val(0);
+        $("#conditionName").text("");
+      }
+      else
+      {
+        $("#conditionName").text("Loading...");
+        $.getJSON(conditionUrl, { code: code }, condition_ajax);
+      }
+    }
+
+    function condition_ajax(obj)
+    {
+      $("#conditionId").val(obj.Id);
+      $("#conditionCode").val(obj.Code);
+
+      if (obj.Id == 0)
+      {
+        $("#conditionName").text(obj.ErrorMessage);
+      }
+      else
+      {
+        $("#conditionName").text(obj.Name);
+      }
+    }
+  </script>
+}

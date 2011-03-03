@@ -1,0 +1,120 @@
+﻿@model ClaimMiscellaneousEntity
+
+@{
+  Layout = "~/Views/Shared/_ApplicationLayout.cshtml";
+}
+
+<h1>@ViewBag.Title</h1>
+
+@{ Html.BeginForm(); }
+<table cellpadding="2" cellspacing="0" border="0">
+  <colgroup>
+    <col style="width: 175px" />
+    <col />
+  </colgroup>
+  <tr>
+    <td><label>Miscellaneous Code:</label></td>
+    <td>
+      @Html.Hidden("miscellaneousId", Model.Miscellaneous.Id)
+      @Html.TextBox("miscellaneousCode", Model.Miscellaneous.Code, new { size = 30 })
+      <a id="miscellaneousSearch" href="#" title="Miscellaneous Search"><img src="@Url.Content("~/Content/Images/search.png")" /></a>
+    </td>
+  </tr>
+  <tr>
+    <td><label>Miscellaneous Name:</label></td>
+    <td><span id="miscellaneousName">@Model.Miscellaneous.Name</span></td>
+  </tr>
+  <tr>
+    <td><label>Supplier Name:</label></td>
+    <td>@Html.TextBox("supplierName", Model.SupplierName, new { size = 30 })</td>
+  </tr>
+  <tr>
+    <td><label>Invoice No:</label></td>
+    <td>@Html.TextBox("invoiceNumber", Model.InvoiceNumber, new { size = 30 })</td>
+  </tr>
+  <tr>
+    <td><label>Total Amount:</label></td>
+    <td>@Html.TextBox("itemAmount", Model.ItemAmount.ToString("n2"), new { size = 30 })</td>
+  </tr>
+  <tr>
+    <td colspan="2">&nbsp;</td>
+  </tr>
+  <tr>
+    <td><label for="addMore">Add more items:</label></td>
+    <td>
+      <input type="checkbox" id="addMore" name="addMore" />
+    </td>
+  </tr>
+</table>
+
+<div style="text-align:center;padding-top:20px;">
+  <input type="submit" id="btnSave" name="btnSave" value="Create" style="width: 80px;" />
+  or
+  @Html.ActionLink("cancel", "Display", new { id = Model.ClaimId, controller = "WarrantyClaim", area = "Claim" })
+</div>
+@{ Html.EndForm(); }
+
+<div id="searchDialog" style="display: none">
+  <iframe id="searchFrame" width="100%" height="100%" marginwidth="0" marginheight="0" frameborder="0" scrolling="auto"></iframe>
+</div>
+
+@section scripts
+{
+  @Html.ScriptLink("jquery-ui.js")
+
+  <script type="text/javascript">
+    var miscellaneousUrl = "@Url.Action("GetMiscellaneous", "Ajax", new { area = "" })";
+    var searchUrl = "@Url.Action("Miscellaneous", "Search", new { area = "" })";
+   
+    $(function() {
+      $("#miscellaneousCode").change(miscellaneous_change);
+      $("#miscellaneousSearch").click(miscellaneous_search);
+    
+      $("#searchDialog").dialog({
+          autoOpen: false,
+          modal: true,
+          height: 500,
+          width: 800
+        });
+    });
+
+    function miscellaneous_change(e) {
+      var code = $("#miscellaneousCode").val();
+      loadMiscellaneous(code);
+    }
+  
+    function loadMiscellaneous(code) {
+      if (code == "")
+      {
+        $("#miscellaneousId").val(0);
+        $("#miscellaneousName").text("");
+      }
+      else
+      {
+        $("#miscellaneousName").text("Loading...");
+        $.getJSON(miscellaneousUrl, { code: code }, miscellaneous_ajax);
+      }
+    }
+
+    function miscellaneous_ajax(obj)
+    {
+      $("#miscellaneousId").val(obj.Id);
+      $("#miscellaneousCode").val(obj.Code);
+
+      if (obj.Id == 0)
+      {
+        $("#miscellaneousName").text(obj.ErrorMessage);
+      }
+      else
+      {
+        $("#miscellaneousName").text(obj.Name);
+      }
+    }
+
+    function miscellaneous_search(e) {
+      $("#searchDialog").dialog("option", "title", "Miscellaneous Search");
+      $("#searchDialog").dialog("open");
+      $("#searchFrame").attr("src",searchUrl);
+    }
+  </script>
+}

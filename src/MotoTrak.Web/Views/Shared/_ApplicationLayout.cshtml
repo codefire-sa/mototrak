@@ -1,0 +1,81 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" >
+<head>
+    <title>@ViewBag.Title</title>
+    @Html.CssLink("site.css")
+    @Html.CssLink("jquery-ui.css")
+</head>
+<body>
+  <div class="pageHeader">
+    <div class="logo">
+      <a href="@Url.Action("Index", "Home", new { area = "" })" title="Go to the dashboard.">
+        <img src="@Url.Content("~/Content/Images/Logo.png")" />
+      </a>
+    </div>
+    <div class="pageLinks">
+      @Html.ActionLink("Dashboard", "Index", new { controller = "Home", area = "" }, new { title = "Go to the dashboard." })
+      |
+      @Html.ActionLink(ViewData.Get<string>("HostUserName"), "Profile", new { controller = "Account", area = "" }, new { title = "View your profile." })
+      |
+      @Html.ActionLink("Sign Out", "Logout", new { controller = "Account", area = "" }, new { title = "Sign out from this session." })
+    </div>
+
+    <div class="menuContainer">
+      <ul id="nav">
+        <li><a href="#">Policy</a>
+          <ul>
+            <li>@Html.ActionLink("New Vehicle", "Create", new { controller = "Vehicle", area = "Policy" })</li>
+            <li>@Html.ActionLink("Vehicle Search", "Search", new { controller = "Vehicle", area = "Policy" })</li>
+            <li>@Html.ActionLink("Vehicle Services", "Search", new { controller = "VehicleService", area = "Policy" })</li>
+          </ul>
+        </li>
+        <li class="current"><a href="#">Claims</a>
+          <ul>
+            <li>@Html.ActionLink("New Claim", "VehicleSearch", new { controller = "Claim", area = "Claim" })</li>
+            <li>@Html.ActionLink("Claim Queue", "Queue", new { controller = "Claim", area = "Claim" })</li>
+            <li>@Html.ActionLink("Claim Search", "Search", new { controller = "Claim", area = "Claim" })</li>
+          </ul>
+        </li>
+        <li><a href="#">Reports</a>
+          <ul>
+            <li>@Html.ActionLink("Age Analysis", "Criteria", new { controller = "AgeAnalysis", area = "Report" })</li>
+            <li>@Html.ActionLink("Claims Recon", "Criteria", new { controller = "ClaimReconcilliation", area = "Report" })</li>
+          </ul>
+        </li>
+        <li><a href="#">Miscellaneous</a></li>
+        <li><a href="#">Settings</a>
+          <ul>
+            <li>@Html.ActionLink("General", "General", new { controller = "Home", area = "Administration" })</li>
+            <li>@Html.ActionLink("Policy", "Policy", new { controller = "Home", area = "Administration" })</li>
+            <li>@Html.ActionLink("Claims", "Claim", new { controller = "Home", area = "Administration" })</li>
+          </ul>
+        </li>
+      </ul>
+     
+    </div>
+  </div>
+
+  <div class="pageBody">
+    @RenderBody()
+  </div>
+
+  <div class="pageBottom"></div>
+    <div class="pageFooter">
+    <p>Codefire &copy; 2011</p>
+  </div>
+
+  @Html.ScriptLink("jquery.js")
+  @Html.ScriptLink("menu.js")
+  
+  @RenderSection("scripts", false)
+
+  <script type="text/javascript">
+    $(document).ready(function () {
+      initializeMenu("nav");
+
+      if (window.initializePage) initializePage();
+    });
+  </script>
+</body>
+</html>

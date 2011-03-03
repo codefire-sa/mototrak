@@ -1,0 +1,44 @@
+﻿@{
+  Layout = "~/Views/Shared/_DefaultLayout.cshtml";
+}
+
+<h1>Login</h1>
+
+@Html.DisplayMessage()
+
+@{ Html.BeginForm("Login", "Account", new { returnUrl = ViewData["returnUrl"] }); }
+<table cellpadding="2" cellspacing="0" border="0">
+  <colgroup>
+    <col style="width: 150px" />
+    <col />
+  </colgroup>
+  <tr>
+    <td><label>User Name:</label></td>
+    <td>
+      @Html.TextBox("userName", ViewData["userName"], new { size = 30 })
+    </td>
+  </tr>
+  <tr>
+    <td><label>Password:</label></td>
+    <td>
+      @Html.Password("password", "", new { size = 30 })
+    </td>
+  </tr>
+  <tr>
+    <td>&nbsp;</td>
+    <td>
+      <input id="rememberMe" name="rememberMe" type="checkbox" checked="checked" value="on" />
+      Remember me on this computer
+    </td>
+  </tr>
+  <tr>
+    <td colspan="2">&nbsp;</td>
+  </tr>
+  <tr>
+    <td>&nbsp;</td>
+    <td>
+      <input type="submit" id="btnSubmit" name="btnSubmit" value="Login" style="width: 80px;" />
+    </td>
+  </tr>
+</table>
+@{ Html.EndForm(); }

@@ -1,0 +1,113 @@
+﻿@model ClaimLabourEntity
+
+@{
+  Layout = "~/Views/Shared/_ApplicationLayout.cshtml";
+}
+
+<h1>@ViewBag.Title</h1>
+
+@{ Html.BeginForm(); }
+<table cellpadding="2" cellspacing="0" border="0">
+  <colgroup>
+    <col style="width: 175px" />
+    <col />
+  </colgroup>
+  <tr>
+    <td><label>Labour Code:</label></td>
+    <td>
+      @Html.Hidden("labourId", Model.Labour.Id)
+      @Html.TextBox("labourCode", Model.Labour.Code, new { size = "30" })
+      <a id="labourSearch" href="#" title="Labour Search"><img src="@Url.Content("~/Content/Images/search.png")" /></a>
+    </td>
+  </tr>
+  <tr>
+    <td><label>Labour Name:</label></td>
+    <td><span id="labourName">@Model.Labour.Name</span></td>
+  </tr>
+  <tr>
+    <td><label>Hours:</label></td>
+    <td>@Html.TextBox("hours", Model.Hours, new { size = "30" })</td>
+  </tr>
+  <tr>
+    <td colspan="2">&nbsp;</td>
+  </tr>
+  <tr>
+    <td><label for="addMore">Add more items:</label></td>
+    <td>
+      <input type="checkbox" id="addMore" name="addMore" />
+    </td>
+  </tr>
+</table>
+
+<div style="text-align:center;padding-top:20px;">
+  <input type="submit" id="btnSave" name="btnSave" value="Create" style="width: 80px;" />
+  or
+  @Html.ActionLink("cancel", "Display", new { id = Model.ClaimId, controller = "WarrantyClaim", area = "Claim"} )
+</div>
+@{ Html.EndForm(); }
+
+<div id="searchDialog" style="display: none">
+  <iframe id="searchFrame" width="100%" height="100%" marginWidth="0" marginHeight="0" frameBorder="0" scrolling="auto"></iframe>
+</div>
+
+@section scripts
+{
+  @Html.ScriptLink("jquery-ui.js")
+
+  <script type="text/javascript">
+    var labourUrl = "@Url.Action("GetLabour", "Ajax", new { area = "" })";
+    var searchUrl = "@Url.Action("Labour", "Search", new { area = "" })";
+  
+    $(function() {
+      $("#labourCode").change(labour_change);
+      $("#labourSearch").click(labour_search);
+    
+      $("#searchDialog").dialog({
+          autoOpen: false,
+          modal: true,
+          height: 500,
+          width: 800
+        });
+    });
+
+    function labour_change(e) {
+      var code = $("#labourCode").val();
+      loadLabour(code);
+    }
+  
+    function labour_search(e) {
+      $("#searchDialog").dialog("option", "title", "Labour Search");
+      $("#searchDialog").dialog("open");
+      $("#searchFrame").attr("src",searchUrl);
+    }
+
+    function loadLabour(code)
+    {
+      if (code == "")
+      {
+        $("#labourId").val(0);
+        $("#labourName").text("");
+      }
+      else
+      {
+        $("#labourName").text("Loading...");
+        $.getJSON(labourUrl, { code: code }, labour_ajax);
+      }
+    }
+  
+    function labour_ajax(obj)
+    {
+      $("#labourId").val(obj.Id);
+      $("#labourCode").val(obj.Code);
+
+      if (obj.Id == 0)
+      {
+        $("#labourName").text(obj.ErrorMessage);
+      }
+      else
+      {
+        $("#labourName").text(obj.Name);
+      }
+    }
+  </script>
+}

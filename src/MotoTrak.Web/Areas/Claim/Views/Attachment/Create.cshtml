@@ -1,0 +1,27 @@
+﻿@{
+  Layout = "~/Views/Shared/_ApplicationLayout.cshtml";
+}
+
+<h1>@ViewBag.Title</h1>
+
+@{ Html.BeginForm("Create", "Attachment", new { area = "Claim" }, FormMethod.Post, new { enctype = "multipart/form-data" }); }
+<table cellpadding="2" cellspacing="0" border="0">
+  <colgroup>
+      <col style="width: 175px" />
+      <col style="width: 400px" />
+  </colgroup>
+  @for (int index = 1; index <= 5; index++)
+  {
+    <tr>
+        <td><label>Attach File @index:</label></td>
+        <td><input type="file" name="attachmentFile_@(index)" size="30" /></td>
+    </tr>
+  }
+</table>
+
+<div style="text-align:center;padding-top:20px;">
+  <input type="submit" id="btnSave" name="btnSave" value="Create" style="width: 80px;" />
+  or
+  @Html.ActionLink("cancel", "Display", new { id = ViewData.Get<int>("ClaimId"), controller = "WarrantyClaim", area = "Claim" } )
+</div>
+@{ Html.EndForm(); }

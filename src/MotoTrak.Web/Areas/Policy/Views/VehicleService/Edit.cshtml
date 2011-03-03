@@ -1,0 +1,108 @@
+﻿@model VehicleServiceEntity
+
+@{
+   Layout = "~/Views/Shared/_ApplicationLayout.cshtml";
+}
+
+<h1>@ViewBag.Title</h1>
+
+@{ Html.BeginForm(); }
+<table cellpadding="2" cellspacing="0" border="0">
+  <colgroup>
+    <col style="width: 175px" />
+    <col />
+  </colgroup>
+  <tr>
+    <td><label>Dealer:</label></td>
+    <td>
+      @Html.Hidden("dealerId", Model.Dealer.Id)
+      @Html.TextBox("dealerCode", Model.Dealer.Code, new { size = 30 })
+      <a id="dealerSearch" href="#" title="Dealer Search"><img src="@Url.Content("~/Content/Images/search.png")" /></a>
+      <span id="dealerName">@Model.Dealer.Name</span
+    </td>
+  </tr>
+  <tr>
+    <td><label>Service Date:</label></td>
+    <td>@Html.TextBox("serviceDate", DateUtility.FormatDate(Model.ServiceDate, "dd/MM/yyyy"), new { size = 30})</td>
+  </tr>
+  <tr>
+      <td><label>Odometer:</label></td>
+      <td>@Html.TextBox("serviceDistance", Model.ServiceDistance, new { size = 30})</td>
+  </tr>
+  <tr>
+      <td><label>Invoice No:</label></td>
+      <td>@Html.TextBox("invoiceNumber", Model.InvoiceNumber, new { size = 30 })</td>
+  </tr>
+</table>
+<div style="text-align:center;padding-top:20px;">
+  <input type="submit" id="btnSave" name="btnSave" value="Update" style="width: 80px;" />
+  or
+  @Html.ActionLink("cancel", "List", new { id = Model.VehicleId, controller = "VehicleService", area = "Policy"} )
+</div>
+@{ Html.EndForm(); }
+
+<div id="searchDialog" style="display: none">
+  <iframe id="searchFrame" width="100%" height="100%" marginWidth="0" marginHeight="0" frameBorder="0" scrolling="auto"></iframe>
+</div>
+
+@section scripts
+{
+  @Html.ScriptLink("jquery-ui.js")
+
+  <script type="text/javascript">
+    var dealerUrl = "@Url.Action("GetDealer", "Ajax", new { area = "" })";
+    var dealerSearchUrl = "@Url.Action("Dealer", "Search", new { area = "" })";
+  
+    $(function() {
+      $("#dealerCode").change(dealer_change);
+      $("#dealerSearch").click(dealer_search);
+    
+      $("#searchDialog").dialog({
+          autoOpen: false,
+          modal: true,
+          height: 500,
+          width: 800
+        });
+    });
+
+    function dealer_change(e) {
+      var code = $("#dealerCode").val();
+      loadDealer(code);
+    }
+  
+    function dealer_search(e) {
+      $("#searchDialog").dialog("option", "title", "Dealer Search");
+      $("#searchDialog").dialog("open");
+      $("#searchFrame").attr("src", dealerSearchUrl);
+    }
+
+    function loadDealer(code)
+    {
+      if (code == "")
+      {
+        $("#dealerId").val("0");
+        $("#dealerName").text("");
+      }
+      else
+      {
+        $("#dealerName").text("Loading...");
+        $.getJSON(dealerUrl, { code: code }, dealer_ajax);
+      }
+    }
+  
+    function dealer_ajax(obj)
+    {
+      $("#dealerId").val(obj.Id);
+      $("#dealerCode").val(obj.Code);
+
+      if (obj.Id == 0)
+      {
+        $("#dealerName").text(obj.ErrorMessage);
+      }
+      else
+      {
+        $("#dealerName").text(obj.Name);
+      }
+    }
+  </script>
+}

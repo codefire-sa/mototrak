@@ -1,0 +1,24 @@
+﻿@{
+   Layout = "~/Views/Shared/_ApplicationLayout.cshtml";
+}
+
+<h1>@ViewBag.Title</h1>
+
+@{ Html.BeginForm(); }
+<table cellpadding="2" cellspacing="0" border="0">
+  <colgroup>
+      <col style="width: 150px" />
+      <col />
+  </colgroup>
+  <tr>
+      <td valign="top"><label>Comment:</label></td>
+      <td><textarea name="comment" cols="60" rows="7"></textarea></td>
+  </tr>
+</table>
+
+<div style="text-align:center;padding-top:20px;">
+  <input type="submit" id="btnSave" name="btnSave" value="Submit" style="width: 80px;" />
+  or
+  @Html.ActionLink("cancel", "Display", new { id = 1 } )
+</div>
+@{ Html.EndForm(); }

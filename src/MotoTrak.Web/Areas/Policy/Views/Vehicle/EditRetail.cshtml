@@ -1,0 +1,261 @@
+﻿@model VehicleModel
+
+@{
+  Layout = "~/Views/Shared/_ApplicationLayout.cshtml";
+}
+
+<h1>@ViewBag.Title</h1>
+
+@{ Html.BeginForm(); }
+<h2>Vehicle Details</h2>
+<table cellpadding="2" cellspacing="0" border="0">
+  <colgroup>
+    <col style="width: 175px" />
+    <col style="width: 250px"/>
+    <col style="width: 175px" />
+    <col style="width: 250px"/>
+  </colgroup>
+  <tr>
+    <td><label>VIN No:</label></td>
+    <td>@Html.TextBox("vinNumber", Model.Vehicle.VinNumber, new { size = 30})</td>
+    <td><label>Chassis No:</label></td>
+    <td>@Html.TextBox("chassisNumber", Model.Vehicle.ChassisNumber, new { size = 30 })</td>
+  </tr>
+  <tr>
+    <td><label>Engine No:</label></td>
+    <td>@Html.TextBox("engineNumber", Model.Vehicle.EngineNumber, new { size = 30 })</td>
+    <td><label>Registration No:</label></td>
+    <td>@Html.TextBox("registrationNumber", Model.Vehicle.RegistrationNumber, new { size = 30 })</td>
+  </tr>
+  <tr>
+    <td><label>Wholesale Date:</label></td>
+    <td>@Html.TextBox("wholesaleDate", DateUtility.FormatDate(Model.Vehicle.WholesaleDate, "dd/MM/yyyy"), new { size = 30 })</td>
+    <td><label>Retail Date:</label></td>
+    <td>@Html.TextBox("retailDate", DateUtility.FormatDate(Model.Vehicle.RetailDate, "dd/MM/yyyy"), new { size = 30 })</td>
+  </tr>
+  <tr>
+    <td><label>Registration Date:</label></td>
+    <td colspan="3">@Html.TextBox("registrationDate", DateUtility.FormatDate(Model.Vehicle.RegistrationDate, "dd/MM/yyyy"), new { size = 30 })</td>
+  </tr>
+  <tr>
+    <td><label>Selling Dealer:</label></td>
+    <td colspan="3">
+      @Html.Hidden("dealerId", Model.Vehicle.Dealer.Id)
+      @Html.TextBox("dealerCode", Model.Vehicle.Dealer.Code, new { size = 30 })
+      <a id="dealerSearch" href="#" title="Dealer Search"><img src="@Url.Content("~/Content/Images/search.png")" /></a>
+      <span id="dealerName">@Model.Vehicle.Dealer.Name</span
+    </td>
+  </tr>
+  <tr>
+    <td><label>Model:</label></td>
+    <td colspan="3">
+      @Html.Hidden("modelId", Model.Vehicle.Model.Id)
+      @Html.TextBox("modelCode", Model.Vehicle.Model.Code, new { size = 30 })
+      <a id="modelSearch" href="#" title="Model Search"><img src="@Url.Content("~/Content/Images/search.png")" /></a>
+      <span id="modelName">@Model.Vehicle.Model.Name</span
+    </td>
+  </tr>
+  <tr>
+    <td><label>Current KM:</label></td>
+    <td colspan="3">@Html.TextBox("currentDistance", Model.Vehicle.CurrentDistance, new { size = 30 })</td>
+  </tr>
+  <tr>
+    <td><label>Status:</label></td>
+    <td colspan="3">@Html.DropDownList("vehicleStatusId", null, "", new { style = "width:205px"})</td>
+  </tr>
+</table>
+
+<h2>Customer Details</h2>
+<table cellpadding="2" cellspacing="0" border="0">
+  <colgroup>
+    <col style="width: 175px" />
+    <col style="width: 250px" />
+    <col style="width: 175px" />
+    <col style="width: 250px" />
+  </colgroup>
+  <tr>
+    <td><label>Title:</label></td>
+    <td>@Html.TextBox("title", Model.Customer.Title, new { size = 30 })</td>
+    <td><label>Initials:</label></td>
+    <td>@Html.TextBox("initials", Model.Customer.Initials, new { size = 30 })</td>
+  </tr>
+  <tr>
+    <td><label>First Name:</label></td>
+    <td>@Html.TextBox("firstName", Model.Customer.FirstName, new { size = 30 })</td>
+    <td><label>Surname:</label></td>
+    <td>@Html.TextBox("lastName", Model.Customer.LastName, new { size = 30 })</td>
+  </tr>
+  <tr>
+    <td><label>Identity No:</label></td>
+    <td colspan="3">@Html.TextBox("referenceNumber", Model.Customer.ReferenceNumber, new { size = 30 })</td>
+  </tr>
+  <tr>
+    <td><label>Language:</label></td>
+    <td>@Html.DropDownList("languageId", null, "", new { style = "width:205px"})</td>
+    <td><label>Gender:</label></td>
+    <td>@Html.DropDownList("genderId", null, "", new { style = "width:205px"})</td>
+  </tr>
+  <tr>
+    <td><label>Physical Address:</label></td>
+    <td>@Html.TextBox("physicalAddress1", Model.Customer.PhysicalAddress.Line1, new { size = 30 })</td>
+    <td><label>Postal Address:</label></td>
+    <td>@Html.TextBox("postalAddress1", Model.Customer.PostalAddress.Line1, new { size = 30 })</td>
+  </tr>
+  <tr>
+    <td>&nbsp;</td>
+    <td>@Html.TextBox("physicalAddress2", Model.Customer.PhysicalAddress.Line2, new { size = 30 })</td>
+    <td>&nbsp;</td>
+    <td>@Html.TextBox("postalAddress2", Model.Customer.PostalAddress.Line2, new { size = 30 })</td>
+  </tr>
+  <tr>
+    <td>&nbsp;</td>
+    <td>@Html.TextBox("physicalAddress3", Model.Customer.PhysicalAddress.Line3, new { size = 30 })</td>
+    <td>&nbsp;</td>
+    <td>@Html.TextBox("postalAddress3", Model.Customer.PostalAddress.Line3, new { size = 30 })</td>
+  </tr>
+  <tr>
+    <td>&nbsp;</td>
+    <td>@Html.TextBox("physicalAddress4", Model.Customer.PhysicalAddress.Line4, new { size = 30 })</td>
+    <td>&nbsp;</td>
+    <td>@Html.TextBox("postalAddress4", Model.Customer.PostalAddress.Line4, new { size = 30 })</td>
+  </tr>
+  <tr>
+    <td><label>Code:</label></td>
+    <td>@Html.TextBox("physicalAddressCode", Model.Customer.PhysicalAddress.PostCode, new { size = 30 })</td>
+    <td><label>Code:</label></td>
+    <td>@Html.TextBox("postalAddressCode", Model.Customer.PostalAddress.PostCode, new { size = 30 })</td>
+  </tr>
+  <tr>
+    <td><label>Home Phone No:</label></td>
+    <td>@Html.TextBox("homePhoneNumber", Model.Customer.HomePhoneNumber, new { size = 30 })</td>
+    <td><label>Work Phone No:</label></td>
+    <td>@Html.TextBox("workPhoneNumber", Model.Customer.WorkPhoneNumber, new { size = 30 })</td>
+  </tr>
+  <tr>
+    <td><label>Mobile No:</label></td>
+    <td>@Html.TextBox("mobileNumber", Model.Customer.MobileNumber, new { size = 30 })</td>
+    <td><label>Fax No:</label></td>
+    <td>@Html.TextBox("faxNumber", Model.Customer.FaxNumber, new { size = 30 })</td>
+  </tr>
+  <tr>
+    <td><label>Email Address:</label></td>
+    <td colspan="3">@Html.TextBox("emailAddress", Model.Customer.EmailAddress, new { size = 30 })</td>
+  </tr>
+</table>
+
+<div style="text-align:center;padding-top:20px;">
+  <input type="submit" id="btnSave" name="btnSave" value="Update" style="width: 80px;" />
+  or
+  @Html.ActionLink("cancel", "Display", new { id = Model.Vehicle.Id, controller = "Vehicle", area = "Policy" })
+</div>
+@{ Html.EndForm(); }
+
+<div id="searchDialog" style="display: none">
+  <iframe id="searchFrame" width="100%" height="100%" marginwidth="0" marginheight="0" frameborder="0" scrolling="auto"></iframe>
+</div>
+
+@section scripts
+{
+  @Html.ScriptLink("jquery-ui.js")
+
+  <script type="text/javascript">
+    var dealerUrl = "@Url.Action("GetDealer", "Ajax", new { area = "" })";
+    var dealerSearchUrl = "@Url.Action("Dealer", "Search", new { area = "" })";
+    var modelUrl = "@Url.Action("GetModel", "Ajax", new { area = "" })";
+    var modelSearchUrl = "@Url.Action("Model", "Search", new { area = "" })";
+  
+    $(function() {
+      $("#dealerCode").change(dealer_change);
+      $("#dealerSearch").click(dealer_search);
+      $("#modelCode").change(model_change);
+      $("#modelSearch").click(model_search);
+    
+      $("#searchDialog").dialog({
+          autoOpen: false,
+          modal: true,
+          height: 500,
+          width: 800
+        });
+    });
+
+    function dealer_change(e) {
+      var code = $("#dealerCode").val();
+      loadDealer(code);
+    }
+  
+    function dealer_search(e) {
+      $("#searchDialog").dialog("option", "title", "Dealer Search");
+      $("#searchDialog").dialog("open");
+      $("#searchFrame").attr("src", dealerSearchUrl);
+    }
+
+    function loadDealer(code)
+    {
+      if (code == "")
+      {
+        $("#dealerId").val("0");
+        $("#dealerName").text("");
+      }
+      else
+      {
+        $("#dealerName").text("Loading...");
+        $.getJSON(dealerUrl, { code: code }, dealer_ajax);
+      }
+    }
+  
+    function dealer_ajax(obj)
+    {
+      $("#dealerId").val(obj.Id);
+      $("#dealerCode").val(obj.Code);
+
+      if (obj.Id == 0)
+      {
+        $("#dealerName").text(obj.ErrorMessage);
+      }
+      else
+      {
+        $("#dealerName").text(obj.Name);
+      }
+    }
+
+    function model_change(e) {
+      var code = $("#modelCode").val();
+      loadModel(code);
+    }
+  
+    function model_search(e) {
+      $("#searchDialog").dialog("option", "title", "Model Search");
+      $("#searchDialog").dialog("open");
+      $("#searchFrame").attr("src", modelSearchUrl);
+    }
+
+    function loadModel(code)
+    {
+      if (code == "")
+      {
+        $("#modelId").val("0");
+        $("#modelName").text("");
+      }
+      else
+      {
+        $("#modelName").text("Loading...");
+        $.getJSON(modelUrl, { code: code }, model_ajax);
+      }
+    }
+  
+    function model_ajax(obj)
+    {
+      $("#modelId").val(obj.Id);
+      $("#modelCode").val(obj.Code);
+
+      if (obj.Id == 0)
+      {
+        $("#modelName").text(obj.ErrorMessage);
+      }
+      else
+      {
+        $("#modelName").text(obj.Name);
+      }
+    }
+  </script>
+}

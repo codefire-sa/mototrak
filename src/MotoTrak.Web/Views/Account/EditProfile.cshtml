@@ -1,0 +1,43 @@
+﻿@model UserEntity
+
+@{
+  Layout = "~/Views/Shared/_ApplicationLayout.cshtml";
+}
+
+<h1>@ViewBag.Title</h1>
+
+@Html.DisplayMessage()
+
+@{ Html.BeginForm("EditProfile", "Account"); }
+<table cellpadding="2" cellspacing="0" border="0">
+  <colgroup>
+    <col style="width: 175px" />
+    <col />
+  </colgroup>
+  <tr>
+    <td><label>User Code:</label></td>
+    <td>@Model.Code</td>
+  </tr>
+  <tr>
+    <td><label>User Name:</label></td>
+    <td>@Html.TextBox("name", Model.Name, new { size = "30" })</td>
+  </tr>
+  <tr>
+    <td><label>Phone Number:</label></td>
+    <td>@Html.TextBox("phoneNumber", Model.PhoneNumber, new { size = "30" })</td>
+  </tr>
+  <tr>
+    <td><label>Mobile Number:</label></td>
+    <td>@Html.TextBox("mobileNumber", Model.MobileNumber, new { size = "30" })</td>
+  </tr>
+  <tr>
+    <td><label>Email Address:</label></td>
+    <td>@Html.TextBox("emailAddress", Model.EmailAddress, new { size = "30" })</td>
+  </tr>
+</table>
+<div style="text-align:center;padding-top:20px;">
+  <input type="submit" id="btnSave" name="btnSave" value="Save" style="width: 80px;" />
+  or
+  @Html.ActionLink("cancel", "Profile")
+</div>
+@{ Html.EndForm(); }

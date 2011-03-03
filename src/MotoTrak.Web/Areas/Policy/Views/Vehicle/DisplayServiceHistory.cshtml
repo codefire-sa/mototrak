@@ -1,0 +1,44 @@
+﻿@model List<VehicleServiceEntity>
+
+@{
+  Layout = "~/Views/Shared/_DialogLayout.cshtml";
+}
+
+<table class="list" width="100%" cellpadding="2" cellspacing="0">
+  <colgroup>
+    <col style="width:100px;"/>
+    <col />
+    <col style="width:120px;"/>
+    <col style="width:120px;"/>
+    <col style="width:150px;"/>
+  </colgroup>
+  <tr>
+    <th>Dealer Code</th>
+    <th>Dealer Name</th>
+    <th>Service Date</th>
+    <th>Odometer</th>
+    <th>Invoice No</th>
+  </tr>
+  @if (Model.Count > 0)
+  {
+    foreach (var row in Model)
+    {
+      <tr class="@Html.Cycle("odd", "even")">
+        <td>@row.Dealer.Code</td>
+        <td>@row.Dealer.Name</td>
+        <td>@DateUtility.FormatDate(row.ServiceDate, "dd/MM/yyyy")</td>
+        <td>@row.ServiceDistance</td>
+        <td>@row.InvoiceNumber</td>
+      </tr>
+    }
+  }
+  else
+  {
+    <tr>
+      <td class="listError" colspan="5">
+        No service history found.
+      </td>
+    </tr>
+  }
+</table>
+<div class="listResults">@Model.Count Record(s)</div>

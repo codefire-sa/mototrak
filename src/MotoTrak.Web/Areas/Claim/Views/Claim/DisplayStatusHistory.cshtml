@@ -1,0 +1,41 @@
+﻿@model List<ClaimHistoryEntity>
+
+@{
+   Layout = "~/Views/Shared/_DialogLayout.cshtml";
+}
+
+<table class="list" width="100%" cellpadding="2" cellspacing="0">
+  <colgroup>
+    <col style="width:100px;"/>
+    <col />
+    <col style="width:150px;"/>
+    <col style="width:150px;"/>
+  </colgroup>
+  <tr>
+    <th>Status Code</th>
+    <th>Status Name</th>
+    <th>User</th>
+    <th>Date</th>
+  </tr>
+  @if (Model.Count > 0)
+  {
+    foreach (var row in Model)
+    {
+      <tr class="@Html.Cycle("odd", "even")">
+        <td>@row.ClaimStatus.Code</td>
+        <td>@row.ClaimStatus.Name</td>
+        <td>@row.UserCode</td>
+        <td>@DateUtility.FormatDate(row.CreateDate, "dd/MM/yyyy HH:mm")</td>
+      </tr>
+    }
+  }
+  else
+  {
+    <tr>
+      <td class="listError" colspan="4">
+        No Claim Status History Found.
+      </td>
+    </tr>
+  }
+</table>
+<div class="listResults">@Model.Count Record(s)</div>

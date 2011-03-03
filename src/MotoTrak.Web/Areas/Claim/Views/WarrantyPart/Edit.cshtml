@@ -1,0 +1,117 @@
+﻿@model ClaimPartEntity
+
+@{
+  Layout = "~/Views/Shared/_ApplicationLayout.cshtml";
+}
+
+<h1>@ViewBag.Title</h1>
+
+@{ Html.BeginForm(); }
+<table cellpadding="2" cellspacing="0" border="0">
+  <colgroup>
+    <col style="width: 175px" />
+    <col style="width: 400px" />
+  </colgroup>
+  <tr>
+    <td><label>Part Code:</label></td>
+    <td>
+      @Html.Hidden("partId", Model.Part.Id)
+      @Html.TextBox("partCode", Model.Part.Code, new { size = 30 })
+      <a id="partSearch" href="#" title="Part Search"><img src="@Url.Content("~/Content/Images/search.png")" /></a>
+    </td>
+  </tr>
+  <tr>
+    <td><label>Part Name:</label></td>
+    <td><span id="partName">@Model.Part.Name</span></td>
+  </tr>
+  <tr>
+    <td><label>Reference No:</label></td>
+    <td>@Html.TextBox("referenceNumber", Model.ReferenceNumber, new { size = 30 })</td>
+  </tr>
+  <tr>
+    <td><label>Purchase Date:</label></td>
+    <td>@Html.TextBox("purchaseDate", DateUtility.FormatDate(Model.PurchaseDate, "dd/MM/yyyy"), new { size = 30 })</td>
+  </tr>
+  <tr>
+    <td><label>Part Type:</label></td>
+    <td>@Html.DropDownList("partTypeId", null, "", new { style = "width:205px"})</td>
+  </tr>
+  <tr>
+    <td><label>Quantity:</label></td>
+    <td>@Html.TextBox("quantity", Model.Quantity, new { size = 30 })</td>
+  </tr>
+</table>
+
+<div style="text-align:center;padding-top:20px;">
+  <input type="submit" id="btnSave" name="btnSave" value="Save" style="width: 80px;" />
+  or
+  @Html.ActionLink("cancel", "Display", new { id = Model.ClaimId, controller = "WarrantyClaim", area = "Claim" })
+</div>
+@{ Html.EndForm(); }
+
+<div id="searchDialog" style="display: none">
+  <iframe id="searchFrame" width="100%" height="100%" marginwidth="0" marginheight="0" frameborder="0" scrolling="auto"></iframe>
+</div>
+
+@section scripts
+{
+  @Html.ScriptLink("jquery-ui.js")
+
+  <script type="text/javascript">
+    var partUrl = "@Url.Action("GetPart", "Ajax", new { area = "" })";
+    var searchUrl = "@Url.Action("Part", "Search", new { area = "" })";
+    var calendarImage = "@Url.Content("~/Content/Images/calendar.png")";
+   
+    $(function() {
+      $("#purchaseDate").datepicker({ dateFormat: 'dd/mm/yy', maxDate: '+0', buttonImageOnly: true, buttonImage: calendarImage, buttonText: 'Select repair date.', showOn: 'button', showAnim: 'show', constraintInput: true });
+      $("#partCode").change(part_change);
+      $("#partSearch").click(part_search);
+    
+      $("#searchDialog").dialog({
+          autoOpen: false,
+          modal: true,
+          height: 500,
+          width: 800
+        });
+    });
+
+    function part_change(e) {
+      var code = $("#partCode").val();
+      loadPart(code);
+    }
+  
+    function loadPart(code) {
+      if (code == "")
+      {
+        $("#partId").val(0);
+        $("#partName").text("");
+      }
+      else
+      {
+        $("#partName").text("Loading...");
+        $.getJSON(partUrl, { code: code }, part_ajax);
+      }
+    }
+
+    function part_ajax(obj)
+    {
+      $("#partId").val(obj.Id);
+      $("#partCode").val(obj.Code);
+
+      if (obj.Id == 0)
+      {
+        $("#partName").text(obj.ErrorMessage);
+      }
+      else
+      {
+        $("#partName").text(obj.Name);
+      }
+    }
+
+    function part_search(e) {
+      $("#searchDialog").dialog("option", "title", "Part Search");
+      $("#searchDialog").dialog("open");
+      $("#searchFrame").attr("src",searchUrl);
+    }
+  </script>
+}

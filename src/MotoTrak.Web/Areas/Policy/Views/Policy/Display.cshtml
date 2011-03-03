@@ -1,0 +1,107 @@
+﻿@model PolicyEntity
+
+@{
+  Layout = "~/Views/Shared/_ApplicationLayout.cshtml";
+  
+  var vehicleObj = ViewData.Get<VehicleEntity>("vehicle");
+}
+
+<h1>@ViewBag.Title</h1>
+
+<ul id="toolBar" class="toolBar">
+  <li>@Html.ActionLink("Edit", "Edit", new { controller = "Policy", area = "Policy", id = Model.Id }, new { id = "editButton", title = "Edit policy." })</li>
+  <li>@Html.ActionLink("Cancel", "Cancel", new { controller = "Policy", area = "Policy", id = Model.Id }, new { id = "cancelButton", title = "Cancel policy." })</li>
+  <li>@Html.ActionLink("Back", "Display", new { controller = "Vehicle", area = "Policy", id = Model.VehicleId }, new { id = "backButton", title = "Go back to the vehicle." })</li>
+</ul>
+
+<table cellpadding="2" cellspacing="0" border="0">
+  <colgroup>
+      <col style="width: 175px" />
+      <col />
+  </colgroup>
+  <tr>
+      <td><label>Policy Code:</label></td>
+      <td>@Model.Code</td>
+  </tr>
+</table>
+
+<br />
+
+<h2>Vehicle Information</h2>
+<table cellpadding="2" cellspacing="0" border="0">
+  <colgroup>
+      <col style="width: 175px" />
+      <col style="width: 250px" />
+      <col style="width: 175px" />
+      <col style="width: 250px" />
+  </colgroup>
+  <tr>
+      <td><label>VIN No:</label></td>
+      <td>@vehicleObj.VinNumber</td>
+      <td><label>Chassis No:</label></td>
+      <td>@vehicleObj.ChassisNumber</td>
+  </tr>
+  <tr>
+      <td><label>Engine No:</label></td>
+      <td>@vehicleObj.EngineNumber</td>
+      <td><label>Registration No:</label></td>
+      <td>@vehicleObj.RegistrationNumber</td>
+  </tr>
+</table>
+
+<br />
+
+<h2>Policy Information</h2>
+<table cellpadding="2" cellspacing="0" border="0">
+  <colgroup>
+      <col style="width: 175px" />
+      <col style="width: 250px" />
+      <col style="width: 175px" />
+      <col style="width: 250px" />
+  </colgroup>
+  <tr>
+      <td><label>Product:</label></td>
+      <td colspan="3">@Model.Product</td>
+  </tr>
+  <tr>
+      <td><label>Contract Months:</label></td>
+      <td>@Model.ContractDuration.ToString("n0")</td>
+      <td><label>Contract KM:</label></td>
+      <td>@Model.ContractDistance.ToString("n0")</td>
+  </tr>
+  <tr>
+      <td><label>Start Date:</label></td>
+      <td>@DateUtility.FormatDate(Model.StartDate, "dd/MM/yyyy")</td>
+      <td><label>Start Date:</label></td>
+      <td>@DateUtility.FormatDate(Model.EndDate, "dd/MM/yyyy")</td>
+  </tr>
+  <tr>
+      <td><label>Start KM:</label></td>
+      <td>@Model.StartDistance.ToString("n0")</td>
+      <td><label>Start KM:</label></td>
+      <td>@Model.EndDistance.ToString("n0")</td>
+  </tr>
+  <tr>
+      <td><label>Cancel User:</label></td>
+      <td>@Model.CancelUser</td>
+      <td><label>Cancel Date:</label></td>
+      <td>@DateUtility.FormatDate(Model.CancelDate, "dd/MM/yyyy")</td>
+  </tr>
+  <tr>
+      <td><label>Status:</label></td>
+      <td colspan="3">@Model.PolicyStatus</td>
+  </tr>
+</table>
+
+@section scripts
+{
+  @Html.ScriptLink("jquery-ui.js")
+
+  <script type="text/javascript">
+    $(function () {
+      $("#editButton").button();
+      $("#cancelButton").button();
+      $("#backButton").button();
+    });
+  </script>
+}

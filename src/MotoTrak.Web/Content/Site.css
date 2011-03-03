@@ -1,0 +1,383 @@
+body {
+  padding: 0px;
+  margin: 0px;
+  font-family: Verdana;
+  font-size: 8.5pt;
+  background: #F8F8F8;
+}
+
+.pageHeader {
+  background: #000;
+  height: 70px;
+  width: 970px;
+  margin: 0 auto;
+}
+
+.logo
+{
+  float: left;
+  padding: 10px 15px 10px 15px;
+  width: 90px;
+  height: 50px;
+}
+
+.menuContainer {
+  float: left;
+  width: 650px;
+}
+
+#nav {
+	list-style: none;
+	padding: 0;
+	margin: 0;
+	height: 24px;
+	line-height: 24px;
+}
+
+#nav li {
+	float: left;
+	color: #444;
+	margin: 0px 3px 0px 0px;
+	background-color: #666;
+}
+
+#nav > li.current > a {
+	color: #000;
+}
+
+#nav > li.sfhover > a {
+	color: #fff;
+}
+
+#nav ul {
+	list-style: none;
+	float: left;
+	width: 200px;
+	position: absolute;
+	display: none;
+	padding: 4px;
+	margin: 0;
+	background: #f6f6f6;
+	border: solid 1px #bbb;
+	z-index: 999;
+}
+
+#nav ul li {
+	float: left;
+	padding: 0;
+	width: 200px;
+	margin: 0;
+	background-color: Transparent;
+}
+
+#nav a {
+	color: #fff;
+	display: block;
+	text-decoration: none;
+	padding: 0px 10px 0px 10px;
+}
+
+#nav ul a {
+	display: block;
+	text-decoration: none;
+	width: 175px;
+	color: #666;
+}
+
+#nav li.current {
+	background: #fff;
+}
+
+#nav li.sfhover {
+	background: #0092BC;
+}
+
+#nav a:hover {
+	color: #fff;
+}
+
+.pageBody {
+  background: white;
+  padding: 10px 10px 20px 10px;
+  width: 950px;
+  margin: 0 auto;
+  margin-top: 10px;
+  border: solid 1px #ddd;
+  border-radius: 5px;
+}
+
+.defaultBody {
+  background: white url(images/document_bg.png) repeat-x top left;
+  padding: 10px 10px 20px 10px;
+  width: 500px;
+  margin: 0 auto;
+  margin-top: 50px;
+  border: solid 1px #ddd;
+  border-radius: 5px;
+  box-shadow: 4px 4px 5px #999;
+  -webkit-box-shadow: 0px 0px 5px #ccc;
+  -moz-box-shadow: 4px 4px 5px #999;
+}
+
+.dialogBody {
+	background-color: white;
+}
+
+.dialogContent {
+	background-color: white;
+	margin-bottom: 20px;
+}
+
+.pageLinks {
+  float: right;
+  padding: 2px 10px 0px 0px;
+  font-size: 8pt;
+  color: #bbb;
+  font-weight: bold;
+  height: 44px;
+}
+
+.pageLinks a, .pageLinks a:visited {
+  font-size: 8pt;
+  color: #bbb;
+  text-decoration: none;
+}
+
+.pageLinks a:hover {
+  color: #fff;
+}
+
+form {
+  padding: 0px;
+  margin: 0px;
+}
+
+label {
+  font-weight: bold;
+  color: #333;
+}
+
+.right 
+{
+  text-align: right;
+}
+
+input, select {
+  font-family: verdana,arial;
+  font-size: 8pt;
+  font-weight: normal;
+}
+
+.ajax {
+  background-position: center 20px;
+  background-image: url(images/ajax-loader.gif);
+  background-repeat: no-repeat;
+}
+
+.list
+{
+  line-height: 13pt;
+}
+
+.list th
+{
+  background-color: #333;
+  color: White;
+}
+
+.odd
+{
+  background-color: #fafafa;
+}
+
+.even
+{
+  background-color: #eaeaea;
+}
+
+.listError
+{
+  background-color: #fafafa;
+  text-align: center;
+  font-weight: bold;
+  padding: 10px 0px 10px 0px;
+}
+
+.listResults
+{
+  font-weight: bold;
+  text-align: right;
+  padding-top: 20px;
+}
+
+.center
+{
+  text-align: center;
+}
+
+.right 
+{
+  text-align: right;
+}
+
+td, th
+{
+	text-align: left;
+}
+
+a img {
+  border: none;
+  vertical-align: middle;
+}
+
+a, a:visited {
+  color: #666;
+  font-weight: bold;
+  text-decoration: none;
+}
+
+a:hover {
+  color: #0E7FC7;
+  text-decoration: underline;
+}
+
+a.action
+{
+  padding: 4px 10px 0px 20px;
+  height: 16px;
+  display: inline-block;
+}
+
+a.add
+{
+  background: url(images/add.png) no-repeat center left;
+}
+
+a.back
+{
+  background: url(images/back.png) no-repeat center left;
+}
+
+a.undo
+{
+  background: url(images/undo.png) no-repeat center left;
+}
+
+.clear {
+  clear: both;
+}
+
+.pageFooter {
+  text-align: center;
+  color: #333;
+  font-size: 8pt;
+  padding-bottom: 10px;
+}
+
+h1 {
+  padding: 0px;
+  margin: 5px 0px 20px 0px;
+  font-size: 14pt;
+  color: #0092BC;
+  font-weight: bold;
+}
+
+h2 {
+  font-size: 11pt;
+  font-weight: bold;
+  color: #333;
+  margin: 0px 0px 10px 0px;
+  padding-bottom: 2px;
+}
+
+input[type="submit"]
+{
+	height: 24px;
+}
+
+.informationMessage, .warningMessage, .errorMessage {
+	padding: .8em;
+	margin-bottom: 1em;
+	color: #333;
+	border: 1px solid #ddd;
+}
+
+.informationMessage
+{
+	background: #F1F8E8;
+	color: #349400;
+	border-color: #46B101;
+}
+
+.warningMessage
+{
+	background: #FFFAEA;
+	color: #BF4900;
+	border-color: #FB8200;
+}
+
+.errorMessage
+{
+	background: #FBE6F2;
+	color: #E70101;
+	border-color: #E70101;
+}
+
+select.error, input.error {
+  border: 1px solid red;
+}
+
+select.error {
+  color: Red;
+}
+
+#toolBar {
+	list-style: none;
+	padding: 0px;
+	margin: 0px;
+	height: 40px;
+}
+
+#toolBar li {
+	float: left;
+	color: #444;
+	margin: 0px 5px 0px 0px;
+}
+
+#toolBar ul {
+	list-style: none;
+	float: left;
+	width: 200px;
+	position: absolute;
+	padding: 4px;
+	margin: 0;
+	background: #f6f6f6;
+	border: solid 1px #bbb;
+	z-index: 999;
+	display: none;
+}
+
+#toolBar ul li {
+	float: left;
+	padding: 0;
+	width: 200px;
+	margin: 0;
+	background-color: Transparent;
+	height: 24px;
+	line-height: 24px;
+}
+
+#toolBar ul a {
+	display: block;
+	text-decoration: none;
+	color: #666;
+	padding: 0px 10px 0px 10px;
+}
+
+#toolBar ul a:hover {
+	color: #fff;
+}
+
+#toolBar ul li.sfhover {
+  background-color: #333;
+}
